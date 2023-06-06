@@ -66,7 +66,7 @@ function(package_dependency __depend __lists)
     bundle_cmake_list(${__lists} ${__DEPEND}_INCLUDE_DIRS
                                  ${__DEPEND}_LIBRARIES
                                  ${__DEPEND}_COMPILE_OPTIONS
-                                 ${__DEPEND}_COMPILE_DEFINITIONS)                                 
+                                 ${__DEPEND}_COMPILE_DEFINITIONS)
     set(${__lists} ${${__lists}} PARENT_SCOPE)
 endfunction()
 
@@ -134,23 +134,23 @@ function(cmsb_find_dependency __name)
         elseif(CMSB_DEBUG_CMAKE)
             if(${__name} IN_LIST DEP_ABUILD)
                 set(DEP_STAGE_DIR ${STAGE_DIR}${CMAKE_INSTALL_PREFIX})
-                set(DEP_PATHS ${DEP_STAGE_DIR} ${CMAKE_INSTALL_PREFIX} 
+                set(DEP_PATHS ${DEP_STAGE_DIR} ${CMAKE_INSTALL_PREFIX}
                               ${${__name}_ROOT})
-                # set(${__name}_DIR ${DEP_PATHS}) 
+                # set(${__name}_DIR ${DEP_PATHS})
                 find_package(${_dep_name} CONFIG
                              HINTS ${DEP_PATHS}
                             #  PATHS ${DEP_PATHS}
                              NO_DEFAULT_PATH
-                            )    
-                # find_package(${__name} QUIET)  
-                if(NOT ${_dep_name}_FOUND)     
+                            )
+                # find_package(${__name} QUIET)
+                if(NOT ${_dep_name}_FOUND)
                   find_package(${_dep_name} CONFIG
-                    HINTS ${CMAKE_PREFIX_PATH} NO_DEFAULT_PATH)  
+                    HINTS ${CMAKE_PREFIX_PATH} NO_DEFAULT_PATH)
                 endif()
                 if(NOT ${_dep_name}_FOUND)
                   is_valid(HDF5_ROOT __h5root)
                   if(${__name} STREQUAL "HDF5" AND __h5root)
-                    # set(HDF5_PREFER_PARALLEL ON)
+                    set(HDF5_PREFER_PARALLEL ON)
                     find_library( _HDF5_LIBRARIES
                         NAMES hdf5
                         HINTS ${${__name}_ROOT}
@@ -168,8 +168,8 @@ function(cmsb_find_dependency __name)
                     find_package_handle_standard_args( HDF5
                         REQUIRED_VARS _HDF5_LIBRARIES _HDF5_INCLUDE_DIR
                         HANDLE_COMPONENTS
-                    )                         
-                    if(HDF5_FOUND) 
+                    )
+                    if(HDF5_FOUND)
                         message(STATUS "HDF5 found!")
                         set(HDF5_INCLUDE_DIR ${_HDF5_INCLUDE_DIR})
                         if( _HDF5_LIBRARIES AND NOT TARGET hdf5-static )
@@ -178,12 +178,12 @@ function(cmsb_find_dependency __name)
                             INTERFACE_INCLUDE_DIRECTORIES "${_HDF5_INCLUDE_DIR}"
                             INTERFACE_LINK_LIBRARIES      "${_HDF5_LIBRARIES}"
                           )
-                        endif()                        
+                        endif()
                     endif()
                   endif()
                 endif()
             else()
-                find_package(${__name})            
+                find_package(${__name})
             endif()
         else()
             find_package(${__name} QUIET)
@@ -194,7 +194,7 @@ function(cmsb_find_dependency __name)
         if(_upper OR _lower OR TARGET ${__dep_target_name})
             set(_tname ${__name}_External)
             add_library(${_tname} INTERFACE)
-            #By convention CMake variables are supposed to be all caps, 
+            #By convention CMake variables are supposed to be all caps,
             #but some projects instead use the same name
             foreach(name_var ${__name}) #${__NAME}
                 if(${__NAME} STREQUAL "INTELSYCL")
@@ -202,11 +202,11 @@ function(cmsb_find_dependency __name)
                 elseif(${__NAME} STREQUAL "EIGEN3")
                     set(name_var ${__NAME})
                     target_include_directories(${_tname} SYSTEM INTERFACE
-                            ${CMAKE_INSTALL_PREFIX}/include/eigen3)                     
+                            ${CMAKE_INSTALL_PREFIX}/include/eigen3)
                 endif()
 
                 if(${__NAME} STREQUAL "MPI")
-                  set(MPI_LIBRARIES ${MPI_C_LIBRARIES})  
+                  set(MPI_LIBRARIES ${MPI_C_LIBRARIES})
                   set(MPI_INCLUDE_DIRS ${MPI_C_INCLUDE_DIRS})
                 endif()
 
@@ -220,28 +220,28 @@ function(cmsb_find_dependency __name)
                 if(${__NAME} STREQUAL "LIBINT2")
                     set(${name_var}_LIBRARIES Libint2::cxx)
                     get_property(_li_cd TARGET Libint2::cxx
-                        PROPERTY INTERFACE_COMPILE_DEFINITIONS) 
-                    set(${name_var}_COMPILE_DEFINITIONS "${_li_cd}")     
+                        PROPERTY INTERFACE_COMPILE_DEFINITIONS)
+                    set(${name_var}_COMPILE_DEFINITIONS "${_li_cd}")
 
                 elseif(${__NAME} STREQUAL "HDF5")
                     set(${name_var}_LIBRARIES hdf5-static)
                     target_include_directories(${_tname} SYSTEM INTERFACE
-                            ${${name_var}_INCLUDE_DIR})  
+                            ${${name_var}_INCLUDE_DIR})
 
-                elseif(${__name} IN_LIST DEP_ABUILD_MISC OR 
+                elseif(${__name} IN_LIST DEP_ABUILD_MISC OR
                        ${__NAME} IN_LIST DEP_ABUILD_MISC)
                     set(${name_var}_LIBRARIES ${__dep_target_name})
-                endif()                
+                endif()
 
                 # if(${__NAME} STREQUAL "MSGSL")
                 #     set(${name_var}_LIBRARIES Microsoft.GSL::GSL)
-                # endif()                
+                # endif()
 
                 is_valid(${name_var}_LIBRARIES __has_libs)
                 if(__has_libs)
                     target_link_libraries(${_tname} INTERFACE
                             ${${name_var}_LIBRARIES})
-                endif() 
+                endif()
 
                 # is_valid(${name_var}_DEFINITIONS __has_defs)
                 # if(__has_defs)
@@ -253,12 +253,12 @@ function(cmsb_find_dependency __name)
                 if(__has_defs)
                     target_compile_options(${_tname} INTERFACE
                                 ${${name_var}_COMPILE_OPTIONS})
-                endif()                
+                endif()
 
-                is_valid(${name_var}_COMPILE_DEFINITIONS __has_defs)  
+                is_valid(${name_var}_COMPILE_DEFINITIONS __has_defs)
                 if(__has_defs)
                     target_compile_definitions(${_tname} INTERFACE
-                                ${${name_var}_COMPILE_DEFINITIONS})                    
+                                ${${name_var}_COMPILE_DEFINITIONS})
                 endif()
                 is_valid(${name_var}_LINK_FLAGS __has_lflags)
                 #if(__has_lflags)
