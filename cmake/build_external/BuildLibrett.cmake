@@ -22,7 +22,7 @@ ExternalProject_Add(Librett_External
 )
 else()
 ExternalProject_Add(Librett_External
-    GIT_REPOSITORY https://github.com/victor-anisimov/Librett.git
+    GIT_REPOSITORY https://github.com/abagusetty/Librett.git
     GIT_TAG ${LIBRETT_GIT_TAG}
     UPDATE_DISCONNECTED 1
     CMAKE_ARGS ${DEPENDENCY_CMAKE_OPTIONS} -DENABLE_SYCL=${USE_DPCPP}
