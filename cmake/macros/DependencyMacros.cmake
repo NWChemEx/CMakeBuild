@@ -217,7 +217,6 @@ function(cmsb_find_dependency __name)
                             )
                         endif()
                     endif()
-                  endif()
                   elseif(${__name} STREQUAL "memkind")
                     find_library( _memkind_LIBRARIES
                         NAMES memkind
