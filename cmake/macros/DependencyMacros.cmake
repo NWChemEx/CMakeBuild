@@ -11,7 +11,7 @@ include(OptionMacros)
 
 enable_language(C)
 
-set(DEP_ABUILD "GauXC" "Eigen3" "LibInt2" "HPTT" "HDF5" "GlobalArrays" "memkind" "TAMM") # "BLIS" "AntlrCppRuntime"
+set(DEP_ABUILD "GauXC" "Eigen3" "LibInt2" "HPTT" "HDF5" "GlobalArrays" "TAMM") # "BLIS" "AntlrCppRuntime"
 set(DEP_ABUILD_MISC "MACIS" "MSGSL" "NJSON" "DOCTEST" "SPDLOG" "EcpInt" "Librett")
 if("${LINALG_VENDOR}" STREQUAL "BLIS")
     list(APPEND DEP_ABUILD "BLAS" "LAPACK")
@@ -186,37 +186,6 @@ function(cmsb_find_dependency __name)
                           )
                         endif()                        
                     endif()
-                  elseif(${__name} STREQUAL "memkind")
-                    find_library( _memkind_LIBRARIES
-                        NAMES memkind
-                        HINTS ${DEP_PATHS}
-                        PATHS ${DEP_PATHS}
-                        PATH_SUFFIXES lib lib64
-                        NO_DEFAULT_PATH
-                    )                
-
-                    find_path( _memkind_INCLUDE_DIR
-                        NAMES memkind.h
-                        HINTS ${DEP_PATHS}
-                        PATHS ${DEP_PATHS}
-                        PATH_SUFFIXES include
-                        NO_DEFAULT_PATH
-                    )
-                    find_package_handle_standard_args( memkind
-                        REQUIRED_VARS _memkind_LIBRARIES _memkind_INCLUDE_DIR
-                        HANDLE_COMPONENTS
-                    )                         
-                    if(memkind_FOUND) 
-                        message(STATUS "memkind found!")
-                        set(memkind_INCLUDE_DIR ${_memkind_INCLUDE_DIR})
-                        if( _memkind_LIBRARIES AND NOT TARGET memkind-cmsb )
-                            add_library( memkind-cmsb INTERFACE IMPORTED )
-                            set_target_properties( memkind-cmsb PROPERTIES
-                                INTERFACE_INCLUDE_DIRECTORIES "${_memkind_INCLUDE_DIR}"
-                                INTERFACE_LINK_LIBRARIES      "${_memkind_LIBRARIES}"
-                            )
-                        endif()                        
-                    endif()
                   endif()
                 endif()
             else()
@@ -264,11 +233,6 @@ function(cmsb_find_dependency __name)
                     set(${name_var}_LIBRARIES hdf5-static)
                     target_include_directories(${_tname} SYSTEM INTERFACE
                             ${${name_var}_INCLUDE_DIR})  
-
-                elseif(${__NAME} STREQUAL "MEMKIND")
-                    set(${name_var}_LIBRARIES memkind-cmsb)
-                    target_include_directories(${_tname} SYSTEM INTERFACE
-                        ${${name_var}_INCLUDE_DIR})
 
                 elseif(${__name} IN_LIST DEP_ABUILD_MISC OR 
                        ${__NAME} IN_LIST DEP_ABUILD_MISC)

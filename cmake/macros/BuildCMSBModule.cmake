@@ -29,7 +29,6 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
     option_w_default(USE_GA_PROFILER OFF)
     option_w_default(GA_ENABLE_SYSV OFF)
     option_w_default(USE_SCALAPACK OFF)
-    option_w_default(USE_MEMKIND OFF)
     option_w_default(CUDA_MAXREGCOUNT 128)
     option_w_default(BUILD_SHARED_LIBS OFF)
     option_w_default(ENABLE_DEV_MODE OFF)
@@ -300,10 +299,6 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
         if(USE_DPCPP)
             list(APPEND TAMM_CXX_FLAGS -DUSE_DPCPP) #-fsycl
         endif()      
-
-        if(USE_MEMKIND)
-            list(APPEND TAMM_CXX_FLAGS -DUSE_MEMKIND)
-        endif()
 
         if(USE_UPCXX)
             list(APPEND TAMM_CXX_FLAGS -DUSE_UPCXX)
