@@ -141,20 +141,23 @@ foreach(__depend_i ${__depends})
       set(CMAKE_FIND_PACKAGE_NAME nlohmann_json)
       list(APPEND ${__CMSB_LIBNAME}_LIBRARIES nlohmann_json::nlohmann_json)
     elseif(${__depend_i} STREQUAL "Eigen3")
-      set(__depend_cfg "Eigen3Config.cmake")  
+      set(__depend_cfg "Eigen3Config.cmake")
       list(APPEND ${__CMSB_LIBNAME}_LIBRARIES Eigen3::Eigen)
     elseif(${__depend_i} STREQUAL "LibInt2")
       set(_dep_pp ${${__depend_i}_ROOT})
-      list(APPEND ${__CMSB_LIBNAME}_LIBRARIES Libint2::cxx)         
+      list(APPEND ${__CMSB_LIBNAME}_LIBRARIES Libint2::cxx)
     elseif(${__depend_i} STREQUAL "GlobalArrays")
-      set(__cur_dep ${__depend_i})   
+      set(__cur_dep ${__depend_i})
       list(APPEND ${__CMSB_LIBNAME}_LIBRARIES GlobalArrays::ga)
     elseif(${__depend_i} STREQUAL "DOCTEST")
       set(__depend_cfg ${__depend_lc}Config.cmake)
-      list(APPEND ${__CMSB_LIBNAME}_LIBRARIES doctest::doctest)         
+      list(APPEND ${__CMSB_LIBNAME}_LIBRARIES doctest::doctest)
     elseif(${__depend_i} STREQUAL "HDF5")
       set(_dep_pp ${${__depend_i}_ROOT})
       list(APPEND ${__CMSB_LIBNAME}_LIBRARIES hdf5-static)
+    elseif(${__depend_i} STREQUAL "numactl")
+      set(_dep_pp ${${__depend_i}_ROOT})
+      list(APPEND ${__CMSB_LIBNAME}_LIBRARIES numactl-cmsb)
     elseif(${__depend_i} STREQUAL "MACIS")
       set(__depend_cfg macis-config.cmake)
       list(APPEND ${__CMSB_LIBNAME}_LIBRARIES macis::macis)
@@ -163,16 +166,16 @@ foreach(__depend_i ${__depends})
       list(APPEND ${__CMSB_LIBNAME}_LIBRARIES spdlog::spdlog)
     elseif(${__depend_i} STREQUAL "EcpInt")
       set(__depend_cfg ecpint-config.cmake)
-      list(APPEND ${__CMSB_LIBNAME}_LIBRARIES ECPINT::ecpint)      
+      list(APPEND ${__CMSB_LIBNAME}_LIBRARIES ECPINT::ecpint)
     elseif(${__depend_i} IN_LIST __depends_tlist)
       #HPTT,GauXC,Librett
-      list(APPEND ${__CMSB_LIBNAME}_LIBRARIES ${__depend_lc}::${__depend_lc})         
+      list(APPEND ${__CMSB_LIBNAME}_LIBRARIES ${__depend_lc}::${__depend_lc})
     endif()
 
     if(${__depend_i} STREQUAL "BLIS")
         set(BLIS_ROOT ${__tip} ${__tip_stage})
         find_package(BLIS)
-        list(APPEND ${__CMSB_LIBNAME}_LIBRARIES ${BLIS_LIBRARIES})  
+        list(APPEND ${__CMSB_LIBNAME}_LIBRARIES ${BLIS_LIBRARIES})
     else()
         find_path(_dep_ct_${__cur_dep} ${__depend_cfg}
                 HINTS ${__tip} ${__tip_stage} ${_dep_pp} ${CMAKE_PREFIX_PATH}
@@ -205,7 +208,7 @@ foreach(__depend_i ${__depends})
               REQUIRED_VARS _HDF5_LIBRARIES _HDF5_INCLUDE_DIR
               HANDLE_COMPONENTS
           )
-          if(HDF5_FOUND) 
+          if(HDF5_FOUND)
             message(STATUS "HDF5 found!")
             if( _HDF5_LIBRARIES AND NOT TARGET hdf5-static )
               add_library( hdf5-static INTERFACE IMPORTED )
@@ -213,15 +216,46 @@ foreach(__depend_i ${__depends})
                 INTERFACE_INCLUDE_DIRECTORIES "${_HDF5_INCLUDE_DIR}"
                 INTERFACE_LINK_LIBRARIES      "${_HDF5_LIBRARIES}"
               )
-            endif()  
+            endif()
           else()
             message(FATAL_ERROR "HDF5 not found!")
+          endif()
+        elseif(${__depend_i} STREQUAL "numactl")
+          find_library( _numactl_LIBRARIES
+              NAMES numa
+              HINTS ${__tip} ${__tip_stage} ${_dep_pp}
+              PATH_SUFFIXES lib lib64
+              NO_DEFAULT_PATH
+          )
+
+          find_path( _numactl_INCLUDE_DIR
+              NAMES numa.h
+              HINTS ${__tip} ${__tip_stage} ${_dep_pp}
+              PATH_SUFFIXES include
+              NO_DEFAULT_PATH
+          )
+          find_package_handle_standard_args( numactl
+              REQUIRED_VARS _numactl_LIBRARIES _numactl_INCLUDE_DIR
+              HANDLE_COMPONENTS
+          )
+          if(numactl_FOUND)
+              message(STATUS "numactl found!")
+              set(NUMACTL_INCLUDE_DIR ${_numactl_INCLUDE_DIR})
+              if( _numactl_LIBRARIES AND NOT TARGET numactl-cmsb )
+                  add_library( numactl-cmsb INTERFACE IMPORTED )
+                  set_target_properties( numactl-cmsb PROPERTIES
+                      INTERFACE_INCLUDE_DIRECTORIES "${_numactl_INCLUDE_DIR}"
+                      INTERFACE_LINK_LIBRARIES      "${_numactl_LIBRARIES}"
+                  )
+              endif()
+          else()
+            message(FATAL_ERROR "numactl not found!")
           endif()
         endif()
     endif()
 
     if(${__depend_i} STREQUAL "TAMM")
-      list(APPEND ${__CMSB_LIBNAME}_LIBRARIES ${TAMM_LIBRARIES}) 
+      list(APPEND ${__CMSB_LIBNAME}_LIBRARIES ${TAMM_LIBRARIES})
     endif()
 endforeach()
 
