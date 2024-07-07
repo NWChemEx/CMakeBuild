@@ -176,9 +176,10 @@ function(cmsb_set_up_gpu_target __name __testgpulib __flags __lflags __install)
         get_property(_tmp_libs TARGET ${__depend}_External
                 PROPERTY INTERFACE_LINK_LIBRARIES)
         list(APPEND CMAKE_INSTALL_RPATH ${_tmp_libs})
+        list(APPEND _all_tmp_libs ${_tmp_libs})
     endforeach()
 
-    target_link_libraries(${__name} PRIVATE "${__testgpulib}" "${_tmp_libs}")
+    target_link_libraries(${__name} PRIVATE "${__testgpulib}" "${_all_tmp_libs}")
     if(TAMM_EXTRA_LIBS)
         target_link_libraries(${__name} PRIVATE "${TAMM_EXTRA_LIBS}")
     endif()
