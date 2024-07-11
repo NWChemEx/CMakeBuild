@@ -73,6 +73,7 @@ set(CMAKE_CXX_STANDARD @CMAKE_CXX_STANDARD@)
 set(BUILD_SHARED_LIBS @BUILD_SHARED_LIBS@)
 set(LINK_STATIC_GPU_LIBS @LINK_STATIC_GPU_LIBS@)
 set(USE_HDF5  @USE_HDF5@)
+set(MODULES   @MODULES@)
 set(USE_OPENMP   @USE_OPENMP@)
 set(USE_LIBNUMA  @USE_LIBNUMA@)
 set(${__CMSB_LIBNAME}_HAS_HIP    @CMSB_HAS_HIP@)
@@ -131,10 +132,10 @@ if(${__CMSB_LIBNAME}_HAS_HIP)
   list(APPEND ${__CMSB_LIBNAME}_LIBRARIES roc::rocblas hip::device)
 endif()
 
-set(__depends @CMSB_DEPENDENCIES@)
+set(__depends_${__cmsb_libname} @CMSB_DEPENDENCIES@)
 set(__depends_tlist HPTT GauXC Librett)
 set(__tip @CMAKE_INSTALL_PREFIX@)
-set(__tip_stage @STAGE_DIR@/@CMAKE_INSTALL_PREFIX@)
+set(__tip_stage_${__cmsb_libname} @STAGE_DIR@/@CMAKE_INSTALL_PREFIX@)
 
 set(LibInt2_ROOT @LibInt2_ROOT@)
 set(HDF5_ROOT @HDF5_ROOT@)
@@ -145,7 +146,7 @@ set(HDF5_ROOT @HDF5_ROOT@)
 #Find the dependencies
 #include(DependencyMacros)
 #cmsb_find_dependency(${__depend_i})
-foreach(__depend_i ${__depends})
+foreach(__depend_i ${__depends_${__cmsb_libname}})
 
     string(TOLOWER ${__depend_i} __depend_lc)
     set(__depend_cfg ${__depend_lc}-config.cmake)
@@ -193,7 +194,7 @@ foreach(__depend_i ${__depends})
     endif()
 
     if(${__depend_i} STREQUAL "BLIS")
-        set(BLIS_ROOT ${__tip} ${__tip_stage})
+        set(BLIS_ROOT ${__tip} ${__tip_stage_${__cmsb_libname}})
         find_package(BLIS)
         list(APPEND ${__CMSB_LIBNAME}_LIBRARIES ${BLIS_LIBRARIES})
     elseif(${__depend_i} STREQUAL "ELPA")
@@ -201,7 +202,7 @@ foreach(__depend_i ${__depends})
       list(APPEND ${__CMSB_LIBNAME}_LIBRARIES elpa_cmsb)
     else()
         find_path(_dep_ct_${__cur_dep} ${__depend_cfg}
-                HINTS ${__tip} ${__tip_stage} ${_dep_pp} ${CMAKE_PREFIX_PATH}
+                HINTS ${__tip} ${__tip_stage_${__cmsb_libname}} ${_dep_pp} ${CMAKE_PREFIX_PATH}
                 PATH_SUFFIXES lib/cmake/${__cur_dep}
                             lib64/cmake/${__cur_dep}
                             share/cmake/${__cur_dep}
@@ -244,7 +245,7 @@ foreach(__depend_i ${__depends})
             message(FATAL_ERROR "HDF5 not found!")
           endif()
         elseif(${__depend_i} STREQUAL "numactl")
-          set(NUMACTL_ROOT ${__tip} ${__tip_stage})
+          set(NUMACTL_ROOT ${__tip} ${__tip_stage_${__cmsb_libname}})
           find_package(numactl)
         endif()
     endif()
@@ -256,6 +257,13 @@ endforeach()
 
 #list(REMOVE_AT CMAKE_MODULE_PATH 0)
 #list(REMOVE_AT CMAKE_MODULE_PATH 0)
+
+# Set again since they are overwritten in foreach above
+# when another package built with cmakebuild is found.
+set(CMSB_PROJECTS @CMSB_PROJECTS@)
+set(__cmsb_libname @CMSB_LIBRARY_NAME@)
+string(TOUPPER ${__cmsb_libname} __CMSB_LIBNAME)
+set(CMAKE_FIND_PACKAGE_NAME ${__CMSB_LIBNAME})
 
 set(__cmsb_lib_is_shared @BUILD_SHARED_LIBS@)
 set(__cmsb_target_exp ${__cmsb_libname}::${__cmsb_libname})
