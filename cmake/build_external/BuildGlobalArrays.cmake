@@ -14,7 +14,11 @@ include(${CMAKE_CURRENT_LIST_DIR}/dep_versions.cmake)
         set(GA_RUNTIME MPI_PROGRESS_RANK)
     endif()
 
-    set(GA_REPO "https://github.com/GlobalArrays/ga.git")
+    is_valid_and_true(GA_REPO __set)
+    if (NOT __set)
+      set(GA_REPO "https://github.com/GlobalArrays/ga.git")
+    endif()
+
     is_valid_and_true(GA_TAG __set)
     if(__set)
       set(GA_GIT_TAG ${GA_TAG})
