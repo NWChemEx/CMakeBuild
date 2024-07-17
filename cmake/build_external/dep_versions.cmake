@@ -51,7 +51,7 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # Global Arrays
-set(GA_GIT_TAG 5ddca2e0319ad7fc0f4f0358204946f2405e42a1)
+set(GA_GIT_TAG develop)
 if(ENABLE_DEV_MODE)
     set(GA_GIT_TAG develop)
 endif()
@@ -63,7 +63,7 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # Librett
-set(LIBRETT_GIT_TAG 8273ac6989cb412a08fdb59bfc9783d93f2aa372)
+set(LIBRETT_GIT_TAG master)
 if(ENABLE_DEV_MODE)
   set(LIBRETT_GIT_TAG master)
 endif()
@@ -72,13 +72,13 @@ endif()
 set(CMSB_LIBINT_VERSION 2.9.0)
 
 # LibEcpInt
-set(ECPINT_GIT_TAG ee6d75a969bb92535a9ecf2ba4b564a75b7ef84b)
+set(ECPINT_GIT_TAG master)
 if(ENABLE_DEV_MODE)
   set(ECPINT_GIT_TAG master)
 endif()
 
 # GauXC
-set(GXC_GIT_TAG 2c94d73e779a817dfc48a9d8629df7fdfba636d7)
+set(GXC_GIT_TAG master)
 if(ENABLE_DEV_MODE)
     set(GXC_GIT_TAG master)
 endif()
