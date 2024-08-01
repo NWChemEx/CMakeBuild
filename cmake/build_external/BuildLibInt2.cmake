@@ -33,7 +33,7 @@ if(ENABLE_OFFLINE_BUILD)
 endif()
 
 set (LI_SRC_SDIR libint-${CMSB_LIBINT_VERSION})
-if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin")
+if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin" OR LIBINT_ERI)
   set(LI_SRC_SDIR ".")
 endif()
 
