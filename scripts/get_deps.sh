@@ -12,11 +12,11 @@ git clone https://github.com/wavefunction91/linalg-cmake-modules.git
 
 git clone https://github.com/flame/blis.git
 cd blis
-git checkout 60f36347c16e6336215cd52b4e5f3c0f96e7c253
+git checkout 415893066e966159799d96166cadcf9bb5535b1c
 
 cd $cdir
 
-wget https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.26/OpenBLAS-0.3.26.tar.gz
+wget https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.27/OpenBLAS-0.3.27.tar.gz
 
 wget https://github.com/doctest/doctest/archive/refs/tags/v2.4.9.tar.gz
 
@@ -31,16 +31,18 @@ cd ga
 git checkout develop
 
 cd $cdir
-wget https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+wget https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5_1.14.4.3.tar.gz
 
 git clone https://github.com/ajaypanyala/hptt.git
 cd hptt
-git checkout aee625b2e51ede30a3b5edf50d159452e7839d95
+git checkout eff1bdd79734ddc4993dd4df1d0cdbd40758b9cb
 
 cd $cdir
-wget https://github.com/evaleev/libint/releases/download/v2.7.2/libint-2.7.2.tgz
+wget https://github.com/evaleev/libint/releases/download/v2.9.0/libint-2.9.0.tgz
 
 git clone https://github.com/victor-anisimov/Librett.git
+cd Librett
+git checkout 8273ac6989cb412a08fdb59bfc9783d93f2aa372
 
 git clone https://github.com/Microsoft/GSL.git
 cd GSL
@@ -50,35 +52,35 @@ cd $cdir
 
 git clone https://github.com/nlohmann/json.git
 cd json
-git checkout b2306145e1789368e6f261680e8dc007e91cc986
+git checkout 3.11.3
 
 cd $cdir
 
 git clone git clone https://github.com/gabime/spdlog
 cd spdlog
-# git checkout v1.x
+git checkout v1.14.1
 
 cd $cdir
 
 git clone https://github.com/Reference-LAPACK/lapack.git
 cd lapack
-git checkout eb8f5fa6462a483431c258f4d6831aa3d4192771
+git checkout 8b468db25c0c5a25d8e0020c7e2134e14cfd33d0
 
 cd $cdir
 git clone https://github.com/Reference-ScaLAPACK/scalapack.git
 cd scalapack
-git checkout 2072b8602f0a5a84d77a712121f7715c58a2e80d
+git checkout 0234af94c6578c53ac4c19f2925eb6e5c4ad6f0f
 
 cd $cdir
 
 git clone https://bitbucket.org/icl/blaspp.git
 cd blaspp 
-git checkout e6a87207af24783270026e476c77d47e1ae3dcc0
+git checkout v2024.05.31
 
 cd $cdir
 git clone https://bitbucket.org/icl/lapackpp.git
 cd lapackpp
-git checkout 02ecd1250740579301844c00a61504d66a39c5d0
+git checkout v2024.05.31
 
 cd $cdir
 git clone https://github.com/wavefunction91/scalapackpp
@@ -88,6 +90,6 @@ cd $cdir
 
 git clone https://github.com/robashaw/libecpint.git
 cd libecpint
-git checkout 8e788d4ea9b74e464dd834441369e3e8488256d9
+git checkout ee6d75a969bb92535a9ecf2ba4b564a75b7ef84b
 
 cd $cdir
