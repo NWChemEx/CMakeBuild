@@ -58,7 +58,7 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
         # option_w_default(SYCL_TBE xehp)
     endif()
 
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang") # OR CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
         if(NOT "${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin")
             if(GCCROOT)
               set(__CMSB_GCC_INSTALL_PREFIX ${GCCROOT})
@@ -212,9 +212,11 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
     bundle_cmake_args(CORE_CMAKE_OPTIONS ${CMSB_CORE_OPTIONS})
 
     bundle_cmake_list(CORE_CMAKE_LISTS CMAKE_PREFIX_PATH CMAKE_MODULE_PATH 
-                         CMSB_LAM_PATH CMAKE_INSTALL_RPATH_USE_LINK_PATH)
+                      CMSB_LAM_PATH CMAKE_INSTALL_RPATH_USE_LINK_PATH)
 
     bundle_cmake_strings(CORE_CMAKE_STRINGS ${CMSB_C_FLAGS} ${CMSB_CXX_FLAGS} ${CMSB_Fortran_FLAGS})
+    # Some deps may need this even if overall build type is Release/Debug
+    bundle_cmake_strings(CORE_CMAKE_STRINGS CMAKE_CXX_FLAGS_RELWITHDEBINFO)
 
     bundle_cmake_args(DEPENDENCY_CMAKE_OPTIONS ${CMSB_CORE_OPTIONS})
 
@@ -254,9 +256,14 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
         list(TRANSFORM MODULES TOUPPER)
         bundle_cmake_strings(CORE_CMAKE_STRINGS MODULES)
         bundle_cmake_strings(CORE_CMAKE_STRINGS LIBINT_ERI)
-        if ("DFT" IN_LIST MODULES)
-            list(APPEND MODULE_CXX_FLAGS -DUSE_GAUXC)
+        if(${PROJECT_NAME}_ENABLE_HIP)
+          #Turn off AMD GPU build by default for now.
+          option_w_default(DFT_CPU ON)
+        else()
+          option_w_default(DFT_CPU OFF)
         endif()
+        bundle_cmake_strings(CORE_CMAKE_STRINGS DFT_CPU)
+        list(APPEND MODULE_CXX_FLAGS -DUSE_GAUXC)
         if ("FCI" IN_LIST MODULES)
             list(APPEND MODULE_CXX_FLAGS -DUSE_MACIS)
         endif()
