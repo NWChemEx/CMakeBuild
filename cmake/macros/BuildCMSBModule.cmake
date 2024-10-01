@@ -58,7 +58,7 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
         # option_w_default(SYCL_TBE xehp)
     endif()
 
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang") # OR CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
         if(NOT "${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin")
             if(GCCROOT)
               set(__CMSB_GCC_INSTALL_PREFIX ${GCCROOT})
