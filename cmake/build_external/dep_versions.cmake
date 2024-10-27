@@ -4,7 +4,7 @@ set(CMSB_HDF5_VERSION hdf5_1.14.4.3)
 set(CMSB_DOCTEST_VERSION 2.4.9)
 set(CMSB_ELPA_VERSION 2024.03.001)
 
-set(TAMM_GIT_TAG 2024-06-17)
+set(TAMM_GIT_TAG 2024-10-27)
 if(ENABLE_DEV_MODE OR USE_TAMM_DEV)
     set(TAMM_GIT_TAG develop)
 endif()
@@ -51,7 +51,7 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # Global Arrays
-set(GA_GIT_TAG develop)
+set(GA_GIT_TAG b2c538eee2cdd3982e2d5d0a4c5f97846f49a6b8)
 if(ENABLE_DEV_MODE)
     set(GA_GIT_TAG develop)
 endif()
@@ -63,7 +63,7 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # Librett
-set(LIBRETT_GIT_TAG master)
+set(LIBRETT_GIT_TAG 0d6d629ef728d414c4c3c99a44b97ae1224e6dea)
 if(ENABLE_DEV_MODE)
   set(LIBRETT_GIT_TAG master)
 endif()
@@ -72,13 +72,13 @@ endif()
 set(CMSB_LIBINT_VERSION 2.9.0)
 
 # LibEcpInt
-set(ECPINT_GIT_TAG master)
+set(ECPINT_GIT_TAG ee6d75a969bb92535a9ecf2ba4b564a75b7ef84b)
 if(ENABLE_DEV_MODE)
   set(ECPINT_GIT_TAG master)
 endif()
 
 # GauXC
-set(GXC_GIT_TAG master)
+set(GXC_GIT_TAG 7ea1c8c00ea39625ea0a9beb6fbf7f202c46afb7)
 if(ENABLE_DEV_MODE)
     set(GXC_GIT_TAG master)
 endif()
