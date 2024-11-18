@@ -21,7 +21,6 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
     option_w_default(CMAKE_CXX_EXTENSIONS OFF)
     option_w_default(CMAKE_BUILD_TYPE Release)
     option_w_default(USE_HDF5 ON)
-    option_w_default(USE_LIBNUMA ON)
     option_w_default(USE_OPENMP OFF)
     option_w_default(${PROJECT_NAME}_ENABLE_CUDA OFF)
     option_w_default(${PROJECT_NAME}_ENABLE_HIP OFF)
@@ -38,6 +37,12 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
 
     option_w_default(ENABLE_OFFLINE_BUILD OFF)
     option_w_default(USE_UPCXX OFF)
+
+    if(${PROJECT_NAME}_ENABLE_CUDA OR ${PROJECT_NAME}_ENABLE_HIP OR ${PROJECT_NAME}_ENABLE_DPCPP)
+        option_w_default(USE_LIBNUMA ON)
+    else()
+        option_w_default(USE_LIBNUMA OFF)
+    endif()
 
     #Detect invalid combinations
     if(${PROJECT_NAME}_ENABLE_CUDA AND ${PROJECT_NAME}_ENABLE_HIP)
