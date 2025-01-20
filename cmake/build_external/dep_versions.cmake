@@ -4,9 +4,9 @@ set(CMSB_HDF5_VERSION hdf5_1.14.4.3)
 set(CMSB_DOCTEST_VERSION 2.4.9)
 set(CMSB_ELPA_VERSION 2024.03.001)
 
-set(TAMM_GIT_TAG main) #2024-10-27
+set(TAMM_GIT_TAG 2025-01-25)
 if(ENABLE_DEV_MODE OR USE_TAMM_DEV)
-    set(TAMM_GIT_TAG develop)
+    set(TAMM_GIT_TAG main)
 endif()
 
 # numactl
