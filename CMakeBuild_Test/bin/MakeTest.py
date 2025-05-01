@@ -25,7 +25,7 @@ os.mkdir(src_dir)
 os.mkdir(test_dir)
 
 with open(os.path.join(root_dir, "CMakeLists.txt"), 'w') as f:
-    f.write("cmake_minimum_required(VERSION 3.22.0)\n")
+    f.write("cmake_minimum_required(VERSION 3.26.0)\n")
     f.write("project({:s} VERSION 1.0.0 LANGUAGES CXX)\n".format(test_name))
     f.write("find_package(CMakeBuild)\n")
     f.write("set({:s}_DEPENDENCIES )\n".format(test_name))

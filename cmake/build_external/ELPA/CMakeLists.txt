@@ -135,8 +135,9 @@ message(STATUS "ELPA configure options:
 if(ENABLE_OFFLINE_BUILD)
 else()
 ExternalProject_Add(ELPA_External
-    URL https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/${CMSB_ELPA_VERSION}/elpa-${CMSB_ELPA_VERSION}.tar.gz
-    CONFIGURE_COMMAND ./configure --prefix=${CMAKE_INSTALL_PREFIX}
+    # URL https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/${CMSB_ELPA_VERSION}/elpa-${CMSB_ELPA_VERSION}.tar.gz
+    URL https://gitlab.mpcdf.mpg.de/elpa/elpa/-/archive/release_${CMSB_ELPA_VERSION}/elpa-release_${CMSB_ELPA_VERSION}.tar.gz
+    CONFIGURE_COMMAND ./autogen.sh && ./configure --prefix=${CMAKE_INSTALL_PREFIX}
                                     ${ELPA_INTRINSICS}
                                     ${ELPA_SHARED_LIBS}
                                     ${ELPA_GPU}

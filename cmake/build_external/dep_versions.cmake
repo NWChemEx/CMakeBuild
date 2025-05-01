@@ -1,57 +1,57 @@
 # Pin dependency versions
 
-set(CMSB_HDF5_VERSION hdf5_1.14.4.3)
-set(CMSB_DOCTEST_VERSION 2.4.9)
-set(CMSB_ELPA_VERSION 2024.03.001)
+set(CMSB_HDF5_VERSION hdf5_1.14.4.3) #skip upto 1.14.6
+set(CMSB_DOCTEST_VERSION 2.4.11)
+set(CMSB_ELPA_VERSION 2025.01.001)
 
-set(TAMM_GIT_TAG 2025-01-25)
+set(TAMM_GIT_TAG 2025-05-01)
 if(ENABLE_DEV_MODE OR USE_TAMM_DEV)
     set(TAMM_GIT_TAG main)
 endif()
 
 # numactl
-set(NUMACTL_GIT_TAG v2.0.18)
+set(NUMACTL_GIT_TAG v2.0.19)
 
 # Eigen3
-set(EIGEN_GIT_TAG e887196d9d67e48c69168257d599371abf1c3b31) #Mar 17, 2023
+set(EIGEN_GIT_TAG 2265a5e025601d501903c772799ce29fb73c8efa) #April 23, 2025
 if(ENABLE_DEV_MODE)
   set(EIGEN_GIT_TAG master)
 endif()
 
 # spdlog
-set(SPDLOG_GIT_TAG v1.14.1)
+set(SPDLOG_GIT_TAG v1.15.2)
 
 # BLIS
-set(BLIS_GIT_TAG 415893066e966159799d96166cadcf9bb5535b1c)
+set(BLIS_GIT_TAG 5d9e110a2aa58b6e5d131db9131bae0143f22f9f) #April 7, 2025
 
 
 # OpenBLAS
-set(OpenBLAS_GIT_TAG 0.3.27)
+set(OpenBLAS_GIT_TAG 0.3.29)
 
 # LAPACK
-set(LAPACK_GIT_TAG 8b468db25c0c5a25d8e0020c7e2134e14cfd33d0)
+set(LAPACK_GIT_TAG 72df25ba80b18d423bdbfdb153ee68c7e922360a)
 if(ENABLE_DEV_MODE)
   set(LAPACK_GIT_TAG master)
 endif()
 
 # ScaLAPACK
-set(SL_GIT_TAG 0234af94c6578c53ac4c19f2925eb6e5c4ad6f0f)
+set(SL_GIT_TAG 0e8767285b7a201c7b1ff34d2c2bb009534145df) #April 8, 2025
 if(ENABLE_DEV_MODE)
   set(SL_GIT_TAG master)
 endif()
 
 # NJSON
-set(NJSON_GIT_TAG 3.11.3) #Do not use commit hash for NJSON
+set(NJSON_GIT_TAG 3.12.0) #Do not use commit hash for NJSON
 set(CMSB_NJSON_VERSION ${NJSON_GIT_TAG})
 
 # GSL
-set(MSGSL_GIT_TAG 3ba80d5dd465828909e1ee756b8c437d5e820ccc)
+set(MSGSL_GIT_TAG 3325bbd33d24d1f8f5a0f69e782c92ad5a39a68e) #4.2.0
 if(ENABLE_DEV_MODE)
   set(MSGSL_GIT_TAG main)
 endif()
 
 # Global Arrays
-set(GA_GIT_TAG b2c538eee2cdd3982e2d5d0a4c5f97846f49a6b8)
+set(GA_GIT_TAG cfd82658aab1c0646e699333d6d8fc4f7f31263f) #April 27,2025
 if(ENABLE_DEV_MODE)
     set(GA_GIT_TAG develop)
 endif()
@@ -63,13 +63,13 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # Librett
-set(LIBRETT_GIT_TAG 0d6d629ef728d414c4c3c99a44b97ae1224e6dea)
+set(LIBRETT_GIT_TAG 5a40cb7e64b0e416b163865fc312f255570dc6a4)
 if(ENABLE_DEV_MODE)
   set(LIBRETT_GIT_TAG master)
 endif()
 
 # Libint
-set(CMSB_LIBINT_VERSION 2.9.0)
+set(CMSB_LIBINT_VERSION 2.11.0) #2.9.0 is min
 
 # LibEcpInt
 set(ECPINT_GIT_TAG ee6d75a969bb92535a9ecf2ba4b564a75b7ef84b)
@@ -78,7 +78,7 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # GauXC
-set(GXC_GIT_TAG 7ea1c8c00ea39625ea0a9beb6fbf7f202c46afb7)
+set(GXC_GIT_TAG 5c85f6b95fa4132eb2ef08e1ed419247a2fe8d48) #May 1, 2025
 if(ENABLE_DEV_MODE)
     set(GXC_GIT_TAG master)
 endif()

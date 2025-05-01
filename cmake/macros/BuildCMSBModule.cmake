@@ -476,7 +476,11 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
 
     if(DEFINED CMSB_BASISSET_DIR)
         if(TARGET Libint2::cxx)
-            get_target_property(LI_CD Libint2::cxx INTERFACE_COMPILE_DEFINITIONS)
+            if(TARGET Libint2::libint2_cxx_prerequisites) #2.10 and above
+                get_target_property(LI_CD Libint2::libint2_cxx_prerequisites INTERFACE_COMPILE_DEFINITIONS)
+            else() #2.9.0
+                get_target_property(LI_CD Libint2::cxx INTERFACE_COMPILE_DEFINITIONS)
+            endif()
             string(REPLACE "=" " " LI_CD ${LI_CD})
             separate_arguments(LI_CD UNIX_COMMAND ${LI_CD})
             list (GET LI_CD 1 LI_BASIS_SET_PATH)
