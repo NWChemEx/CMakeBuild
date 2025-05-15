@@ -108,7 +108,7 @@ endif()
 
 set(ELPA_F_FLAGS "${ELPA_F_FLAGS} ${elpa_mpi_incs}")
 set(ELPA_LINALG "LIBS=${elpa_scalapack_libs} ${elpa_lapack_libs} ${elpa_blas_libs} ${elpa_mpi_libs}")
-set(ELPA_INTRINSICS --disable-sve512 --disable-avx512)
+set(ELPA_INTRINSICS --disable-sve512 --disable-avx512 --disable-openmp --disable-detect-mpi-launcher)
 
 if(${CMSB_PROJECTS}_HAS_CUDA)
   find_package(CUDAToolkit REQUIRED)
@@ -135,9 +135,9 @@ message(STATUS "ELPA configure options:
 if(ENABLE_OFFLINE_BUILD)
 else()
 ExternalProject_Add(ELPA_External
-    # URL https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/${CMSB_ELPA_VERSION}/elpa-${CMSB_ELPA_VERSION}.tar.gz
-    URL https://gitlab.mpcdf.mpg.de/elpa/elpa/-/archive/release_${CMSB_ELPA_VERSION}/elpa-release_${CMSB_ELPA_VERSION}.tar.gz
-    CONFIGURE_COMMAND ./autogen.sh && ./configure --prefix=${CMAKE_INSTALL_PREFIX}
+     URL https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/${CMSB_ELPA_VERSION}/elpa-${CMSB_ELPA_VERSION}.tar.gz
+    CONFIGURE_COMMAND ACLOCAL=aclocal AUTOMAKE=automake AUTOCONF=autoconf AUTOHEADER=autoheader MAKEINFO=makeinfo
+                                    ./configure --prefix=${CMAKE_INSTALL_PREFIX}
                                     ${ELPA_INTRINSICS}
                                     ${ELPA_SHARED_LIBS}
                                     ${ELPA_GPU}
