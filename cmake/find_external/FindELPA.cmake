@@ -21,7 +21,7 @@ endif()
 find_path(ELPA_INCLUDE_DIR elpa/elpa.h
             HINTS ${ELPA_HINTS}
             PATHS ${ELPA_ROOT}
-            PATH_SUFFIXES include include/elpa-2025.01.001
+            PATH_SUFFIXES include include/elpa-2025.01.002
             NO_DEFAULT_PATH
           )
 
