@@ -134,7 +134,7 @@ if(${__CMSB_LIBNAME}_HAS_HIP)
 endif()
 
 set(__depends_${__cmsb_libname} @CMSB_DEPENDENCIES@)
-set(__depends_tlist HPTT GauXC Librett)
+set(__depends_tlist NWQSim HPTT GauXC Librett)
 set(__tip @CMAKE_INSTALL_PREFIX@)
 set(__tip_stage_${__cmsb_libname} @STAGE_DIR@/@CMAKE_INSTALL_PREFIX@)
 

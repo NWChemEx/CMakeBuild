@@ -11,7 +11,7 @@ include(OptionMacros)
 
 enable_language(C)
 
-set(DEP_ABUILD "GauXC" "Eigen3" "LibInt2" "HPTT" "HDF5" "numactl" "ELPA" "GlobalArrays" "TAMM") # "BLIS" "AntlrCppRuntime"
+set(DEP_ABUILD "GauXC" "Eigen3" "LibInt2" "HPTT" "HDF5" "numactl" "ELPA" "GlobalArrays" "NWQSim" "TAMM") # "BLIS" "AntlrCppRuntime"
 set(DEP_ABUILD_MISC "MACIS" "MSGSL" "NJSON" "DOCTEST" "SPDLOG" "EcpInt" "Librett")
 if("${LINALG_VENDOR}" STREQUAL "BLIS" OR "${LINALG_VENDOR}" STREQUAL "OpenBLAS")
     list(APPEND DEP_ABUILD "BLAS" "LAPACK")

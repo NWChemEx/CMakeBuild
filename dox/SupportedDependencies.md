@@ -19,8 +19,8 @@ CMakeBuild can find and build the following:
 | HDF5            | The HDF5 Library                                           |
 | HPTT            | High-Performance Tensor Transpose library                  |
 | MSGSL           | Guidelines Support Library (GSL)                           |
-| TAL-SH          | Tensor Algebra Library for Shared Memory Computers         |
-| GlobalArrays    | The Global Arrays distributed matrix library               |
+| Librett         | Tensor Transpose Library for GPUs                          |
+| GlobalArrays    | The Global Arrays library                                  |
 --------------------------------------------------------------------------------
 
  

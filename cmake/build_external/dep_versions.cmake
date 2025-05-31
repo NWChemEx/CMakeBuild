@@ -83,6 +83,12 @@ if(ENABLE_DEV_MODE)
     set(GXC_GIT_TAG master)
 endif()
 
+#NWQ-Sim
+set(NWQSIM_GIT_TAG main)
+if(ENABLE_DEV_MODE)
+  set(NWQSIM_GIT_TAG main)
+endif()
+
 # Unused
 set(PYBIND_GIT_TAG master)
 if(ENABLE_DEV_MODE)
