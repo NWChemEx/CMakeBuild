@@ -68,12 +68,6 @@ if(ENABLE_DEV_MODE)
   set(LIBRETT_GIT_TAG master)
 endif()
 
-# CUTLASS
-set(CUTLASS_GIT_TAG main)
-if(ENABLE_DEV_MODE)
-  set(CUTLASS_GIT_TAG main)
-endif()
-
 # Libint
 set(CMSB_LIBINT_VERSION 2.11.0) #2.9.0 is min
 
