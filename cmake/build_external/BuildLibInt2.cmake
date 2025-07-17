@@ -41,6 +41,8 @@ set(LI_SRC_SDIR ".")
 ExternalProject_Add(LibInt2_External
         URL ${LIBINT_TAR}
         SOURCE_SUBDIR ${LI_SRC_SDIR}
+        PATCH_COMMAND ${CMAKE_COMMAND} -E echo "Patching include/libint2/lcao/molden.h ..." &&
+                          ${CMAKE_COMMAND} -E copy_if_different ${CMSB_BUILD_SCRIPTS}/molden.h ${LI_SRC_SDIR}/include/libint2/lcao/molden.h
         CMAKE_ARGS ${DEPENDENCY_CMAKE_OPTIONS} -DCMAKE_CXX_FLAGS_INIT=${CXX_FLAGS_INIT} -DLIBINT_USE_BUNDLED_BOOST=ON
         INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}
         CMAKE_CACHE_ARGS ${CORE_CMAKE_LISTS}
