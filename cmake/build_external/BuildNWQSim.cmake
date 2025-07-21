@@ -17,8 +17,12 @@ ExternalProject_Add(NWQSim_External
 else()
 ExternalProject_Add(NWQSim_External
     GIT_REPOSITORY https://github.com/pnnl/NWQ-Sim
-    GIT_TAG ${NWQSIM_GIT_TAG}
+    GIT_TAG dev/exachem_integration
+    # GIT_TAG ${NWQSIM_GIT_TAG}
     UPDATE_DISCONNECTED 1
+    UPDATE_COMMAND
+    ${CMAKE_COMMAND} -E echo "Updating NWQSim submodules..." &&
+    git -C <SOURCE_DIR> submodule update --init --recursive
     CMAKE_ARGS ${DEPENDENCY_CMAKE_OPTIONS} ${NWQSIM_GPU_ARCH}
     INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}
     CMAKE_CACHE_ARGS ${CORE_CMAKE_LISTS}
