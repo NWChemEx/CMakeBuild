@@ -63,13 +63,13 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # Librett
-set(LIBRETT_GIT_TAG 5a40cb7e64b0e416b163865fc312f255570dc6a4)
+set(LIBRETT_GIT_TAG 7e69731d3864304bba8ac4a1c5c4b243f36e5747) #June 25, 2025
 if(ENABLE_DEV_MODE)
   set(LIBRETT_GIT_TAG master)
 endif()
 
 # Libint
-set(CMSB_LIBINT_VERSION 2.11.0) #2.9.0 is min
+set(CMSB_LIBINT_VERSION 2.11.1) #2.9.0 is min
 
 # LibEcpInt
 set(ECPINT_GIT_TAG ee6d75a969bb92535a9ecf2ba4b564a75b7ef84b)
