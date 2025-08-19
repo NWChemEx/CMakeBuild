@@ -17,8 +17,7 @@ ExternalProject_Add(NWQSim_External
 else()
 ExternalProject_Add(NWQSim_External
     GIT_REPOSITORY https://github.com/pnnl/NWQ-Sim
-    GIT_TAG dev/exachem_integration
-    # GIT_TAG ${NWQSIM_GIT_TAG}
+    GIT_TAG ${NWQSIM_GIT_TAG}
     UPDATE_DISCONNECTED 1
     UPDATE_COMMAND
     ${CMAKE_COMMAND} -E echo "Updating NWQSim submodules..." &&
