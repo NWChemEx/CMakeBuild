@@ -51,15 +51,15 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # Global Arrays
-set(GA_GIT_TAG 97964278ae7dca1df373139038b4d5f34b71147c) #June 7,2025
+set(GA_GIT_TAG 5f3d06a46c71ef5ca6e2cac8117ceb5d3ebbe17c) #Aug 26,2025
 if(ENABLE_DEV_MODE)
-    set(GA_GIT_TAG develop)
+  set(GA_GIT_TAG develop)
 endif()
 
 # HPTT
 set(HPTT_GIT_TAG eff1bdd79734ddc4993dd4df1d0cdbd40758b9cb)
 if(ENABLE_DEV_MODE)
-    set(HPTT_GIT_TAG master)
+  set(HPTT_GIT_TAG master)
 endif()
 
 # Librett
