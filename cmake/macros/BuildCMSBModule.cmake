@@ -62,6 +62,18 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
         endif()
         message(STATUS "DPCPP Option Enabled: Setting BLAS_INT4=OFF")
         set(BLAS_INT4 OFF)
+        # TODO: Remove this tmp fix once the problem with statically linked ScaLAPACK libs is resolved
+        if (USE_SCALAPACK)
+          message(STATUS "USE_SCALAPACK Enabled for SYCL build: Setting BUILD_SHARED_LIBS=ON")
+          set(BUILD_SHARED_LIBS ON)
+        endif()
+    endif()
+
+    # TODO: Test and remove this block in the future.
+    # Even Intel MKL has issues with Scalapack ILP64 interface in some cases.
+    if(NOT BLAS_INT4 AND USE_SCALAPACK)
+        message( WARNING "ScaLAPACK build with ILP64 interface is currently not supported. Setting BLAS_INT4=ON" )
+        set(BLAS_INT4 ON)
     endif()
 
     if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
@@ -147,10 +159,6 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
 
     if ("${CMAKE_HOST_SYSTEM_PROCESSOR}" STREQUAL "arm64" AND "${LINALG_VENDOR}" STREQUAL "IntelMKL")
         message( FATAL_ERROR "IntelMKL is not supported for ARM architectures" )
-    endif()
-
-    if(NOT BLAS_INT4 AND USE_SCALAPACK) # AND NOT "${LINALG_VENDOR}" STREQUAL "IntelMKL")
-        message( FATAL_ERROR "ScaLAPACK build with ILP64 interface is currently not supported. Please set -DBLAS_INT4=ON" )
     endif()
 
     print_banner("Configuration Options")
@@ -261,15 +269,10 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
     endif()
     if(MODULES)
         list(TRANSFORM MODULES TOUPPER)
+        option_w_default(GAUXC_GPU OFF)
         bundle_cmake_strings(CORE_CMAKE_STRINGS MODULES)
         bundle_cmake_strings(CORE_CMAKE_STRINGS LIBINT_ERI)
-        if(${PROJECT_NAME}_ENABLE_HIP)
-          #Turn off AMD GPU build by default for now.
-          option_w_default(DFT_CPU ON)
-        else()
-          option_w_default(DFT_CPU OFF)
-        endif()
-        bundle_cmake_strings(CORE_CMAKE_STRINGS DFT_CPU)
+        bundle_cmake_strings(CORE_CMAKE_STRINGS GAUXC_GPU)
         list(APPEND MODULE_CXX_FLAGS -DUSE_GAUXC)
         if ("FCI" IN_LIST MODULES)
             list(APPEND MODULE_CXX_FLAGS -DUSE_MACIS)
