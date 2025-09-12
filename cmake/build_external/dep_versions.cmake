@@ -78,7 +78,7 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # GauXC
-set(GXC_GIT_TAG 5c85f6b95fa4132eb2ef08e1ed419247a2fe8d48) #May 1, 2025
+set(GXC_GIT_TAG fe45b3b795c586cf6c733b3eec8fe3c9392deca6) #Sept 10, 2025
 if(ENABLE_DEV_MODE)
     set(GXC_GIT_TAG master)
 endif()
