@@ -7,15 +7,18 @@ enable_language(C Fortran)
 
 include(${CMAKE_CURRENT_LIST_DIR}/dep_versions.cmake)
 
+is_valid_and_true(BLAS_ARCH __blas_arch_set)
+if (NOT __blas_arch_set)
+  message(STATUS "BLAS_ARCH not set, will auto-detect")
+else()
+  message(STATUS "BLAS_ARCH set to ${BLAS_ARCH}")
+  set(__BLAS_ARCH ${BLAS_ARCH})
+endif()
+
 if("${LINALG_VENDOR}" STREQUAL "BLIS")
 
-is_valid_and_true(BLIS_CONFIG __set)
-if (NOT __set)
-    message(STATUS "BLIS_CONFIG not set, will auto-detect")
-    set(BLIS_CONFIG_HW "auto")
-else()
-    message(STATUS "BLIS_CONFIG set to ${BLIS_CONFIG}")
-    set(BLIS_CONFIG_HW ${BLIS_CONFIG})
+if (NOT __blas_arch_set)
+  set(__BLAS_ARCH "auto")
 endif()
 
 string_concat(CMAKE_C_FLAGS_RELEASE "" " " BLIS_FLAGS)
@@ -56,7 +59,7 @@ ExternalProject_Add(BLAS_External
                                       CFLAGS=${BLIS_OPT_FLAGS}
                                       ${BLIS_INT_FLAGS}
                                       ${BLIS_MISC_OPTIONS}
-                                      ${BLIS_CONFIG_HW}
+                                      ${__BLAS_ARCH}
         INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install #DESTDIR=${STAGE_DIR} 
         BUILD_IN_SOURCE 1
 )
@@ -71,7 +74,7 @@ ExternalProject_Add(BLAS_External
                                       CFLAGS=${BLIS_OPT_FLAGS}
                                       ${BLIS_INT_FLAGS}
                                       ${BLIS_MISC_OPTIONS}
-                                      ${BLIS_CONFIG_HW}
+                                      ${__BLAS_ARCH}
         INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install #DESTDIR=${STAGE_DIR} 
         BUILD_IN_SOURCE 1
 )
@@ -86,11 +89,16 @@ if(NOT BLAS_INT4)
   set(OB_INT8 ON)
 endif()
 
+if (__blas_arch_set)
+  set(OPENBLAS_TARGET_ARCH "-DTARGET=${__BLAS_ARCH}")
+endif()
+
 if(ENABLE_OFFLINE_BUILD)
 ExternalProject_Add(BLAS_External
         URL ${DEPS_LOCAL_PATH}/OpenBLAS-${OpenBLAS_GIT_TAG}.tar.gz
         CMAKE_ARGS ${DEPENDENCY_CMAKE_OPTIONS}
                                       -DBUILD_WITHOUT_LAPACK=ON
+                                      ${OPENBLAS_TARGET_ARCH}
                                       -DBUILD_TESTING=OFF
                                       -DBUILD_WITHOUT_CBLAS=ON
                                       -DINTERFACE64=${OB_INT8}
@@ -102,6 +110,7 @@ ExternalProject_Add(BLAS_External
         URL https://github.com/OpenMathLib/OpenBLAS/releases/download/v${OpenBLAS_GIT_TAG}/OpenBLAS-${OpenBLAS_GIT_TAG}.tar.gz
         CMAKE_ARGS ${DEPENDENCY_CMAKE_OPTIONS}
                                       -DBUILD_WITHOUT_LAPACK=ON
+                                      ${OPENBLAS_TARGET_ARCH}
                                       -DBUILD_TESTING=OFF
                                       -DBUILD_WITHOUT_CBLAS=ON
                                       -DINTERFACE64=${OB_INT8}

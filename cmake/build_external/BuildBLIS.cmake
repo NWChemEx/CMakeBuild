@@ -7,13 +7,13 @@ enable_language(C Fortran)
 
 include(${CMAKE_CURRENT_LIST_DIR}/dep_versions.cmake)
 
-is_valid_and_true(BLIS_CONFIG __set)
-if (NOT __set)
-    message(STATUS "BLIS_CONFIG not set, will auto-detect")
-    set(BLIS_CONFIG_HW "auto")
+is_valid_and_true(BLAS_ARCH __blas_arch_set)
+if (NOT __blas_arch_set)
+    message(STATUS "BLAS_ARCH not set, will auto-detect")
+    set(__BLAS_ARCH "auto")
 else()
-    message(STATUS "BLIS_CONFIG set to ${BLIS_CONFIG}")
-    set(BLIS_CONFIG_HW ${BLIS_CONFIG})
+    message(STATUS "BLAS_ARCH set to ${BLAS_ARCH}")
+    set(__BLAS_ARCH ${BLAS_ARCH})
 endif()
 
 string_concat(CMAKE_C_FLAGS_RELEASE "" " " BLIS_FLAGS)
@@ -54,7 +54,7 @@ ExternalProject_Add(BLIS_External
                                       CFLAGS=${BLIS_OPT_FLAGS}
                                       ${BLIS_INT_FLAGS}
                                       ${BLIS_MISC_OPTIONS}
-                                      ${BLIS_CONFIG_HW}
+                                      ${__BLAS_ARCH}
         INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}
         BUILD_IN_SOURCE 1
 )
@@ -69,7 +69,7 @@ ExternalProject_Add(BLIS_External
                                       CFLAGS=${BLIS_OPT_FLAGS}
                                       ${BLIS_INT_FLAGS}
                                       ${BLIS_MISC_OPTIONS}
-                                      ${BLIS_CONFIG_HW}
+                                      ${__BLAS_ARCH}
         INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}
         BUILD_IN_SOURCE 1
 )
