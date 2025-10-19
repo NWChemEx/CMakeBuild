@@ -26,7 +26,7 @@ set(BLIS_GIT_TAG 5d9e110a2aa58b6e5d131db9131bae0143f22f9f) #April 7, 2025
 
 
 # OpenBLAS
-set(OpenBLAS_GIT_TAG 0.3.29)
+set(OpenBLAS_GIT_TAG 0.3.30)
 
 # LAPACK
 set(LAPACK_GIT_TAG 72df25ba80b18d423bdbfdb153ee68c7e922360a)
@@ -51,7 +51,7 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # Global Arrays
-set(GA_GIT_TAG 5f3d06a46c71ef5ca6e2cac8117ceb5d3ebbe17c) #Aug 26,2025
+set(GA_GIT_TAG e51ca170120549b8f4a0451f130630a84cf55679) #Oct 15,2025
 if(ENABLE_DEV_MODE)
   set(GA_GIT_TAG develop)
 endif()
@@ -78,7 +78,7 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # GauXC
-set(GXC_GIT_TAG fe45b3b795c586cf6c733b3eec8fe3c9392deca6) #Sept 10, 2025
+set(GXC_GIT_TAG ba8075764f669436530ac9c803c8bfa4710dbcaf) #Oct 16, 2025
 if(ENABLE_DEV_MODE)
     set(GXC_GIT_TAG master)
 endif()
