@@ -82,25 +82,27 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
             if(GCCROOT)
               set(__CMSB_GCC_INSTALL_PREFIX ${GCCROOT})
               set(CMSB_GCC_TOOLCHAIN_FLAG "--gcc-toolchain=${GCCROOT}")
-            else()
-              get_filename_component(__CMSB_GCC_INSTALL_PREFIX "${CMAKE_Fortran_COMPILER}/../.." ABSOLUTE)
-              if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-                set(CMSB_GCC_TOOLCHAIN_FLAG "--gcc-toolchain=${__CMSB_GCC_INSTALL_PREFIX}")
-              else()
-                message(FATAL_ERROR "GCCROOT cmake option not set when using clang compilers. \
-                        Please set a valid path to the GCC installation.")
-              endif()
+            # else()
+            #   get_filename_component(__CMSB_GCC_INSTALL_PREFIX "${CMAKE_Fortran_COMPILER}/../.." ABSOLUTE)
+            #   if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+            #     set(CMSB_GCC_TOOLCHAIN_FLAG "--gcc-toolchain=${__CMSB_GCC_INSTALL_PREFIX}")
+            #   else()
+            #     message(FATAL_ERROR "GCCROOT cmake option not set when using clang compilers. \
+            #             Please set a valid path to the GCC installation.")
+            #   endif()
             endif()
             #Check GCC installation
-            if(NOT 
-               (EXISTS ${__CMSB_GCC_INSTALL_PREFIX}/bin AND
-                EXISTS ${__CMSB_GCC_INSTALL_PREFIX}/include AND
-                EXISTS ${__CMSB_GCC_INSTALL_PREFIX}/lib)
-              )
-              message(FATAL_ERROR "GCC installation path found ${__CMSB_GCC_INSTALL_PREFIX} seems to be incorrect. \
-              Please set the GCCROOT cmake option to the correct GCC installation prefix.")
+            if(GCCROOT)
+                if(NOT 
+                (EXISTS ${__CMSB_GCC_INSTALL_PREFIX}/bin AND
+                    EXISTS ${__CMSB_GCC_INSTALL_PREFIX}/include AND
+                    EXISTS ${__CMSB_GCC_INSTALL_PREFIX}/lib)
+                )
+                message(FATAL_ERROR "GCC installation path found ${__CMSB_GCC_INSTALL_PREFIX} seems to be incorrect. \
+                Please set the GCCROOT cmake option to the correct GCC installation prefix.")
+                endif()
+                message(STATUS "CMSB_GCC_TOOLCHAIN_FLAG: ${CMSB_GCC_TOOLCHAIN_FLAG}")
             endif()
-            message(STATUS "CMSB_GCC_TOOLCHAIN_FLAG: ${CMSB_GCC_TOOLCHAIN_FLAG}")
         endif()
     endif()
 
