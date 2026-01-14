@@ -69,7 +69,7 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # Libint
-set(CMSB_LIBINT_VERSION 2.11.1) #2.9.0 is min
+set(CMSB_LIBINT_VERSION 2.11.2) #2.9.0 is min
 
 # LibEcpInt
 set(ECPINT_GIT_TAG ee6d75a969bb92535a9ecf2ba4b564a75b7ef84b)
