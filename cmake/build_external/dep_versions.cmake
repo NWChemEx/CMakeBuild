@@ -4,7 +4,7 @@ set(CMSB_HDF5_VERSION hdf5_1.14.4.3) #skip upto 1.14.6
 set(CMSB_DOCTEST_VERSION 2.4.11)
 set(CMSB_ELPA_VERSION 2025.01.002)
 
-set(TAMM_GIT_TAG 2025-10-03)
+set(TAMM_GIT_TAG v0.0.1)
 if(ENABLE_DEV_MODE OR USE_TAMM_DEV)
     set(TAMM_GIT_TAG main)
 endif()
@@ -84,7 +84,7 @@ if(ENABLE_DEV_MODE)
 endif()
 
 #NWQ-Sim
-set(NWQSIM_GIT_TAG main)
+set(NWQSIM_GIT_TAG 1a4f3c49fd7277649b37eb623bd2f4622cb32cdb) #Jan 22, 2026
 if(ENABLE_DEV_MODE)
   set(NWQSIM_GIT_TAG main)
 endif()
