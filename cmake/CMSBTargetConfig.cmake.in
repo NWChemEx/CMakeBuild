@@ -162,6 +162,7 @@ set(__tip_stage_${__cmsb_libname} @STAGE_DIR@/@CMAKE_INSTALL_PREFIX@)
 
 set(LibInt2_ROOT @LibInt2_ROOT@)
 set(HDF5_ROOT @HDF5_ROOT@)
+set(HPTT_ROOT @HPTT_ROOT@)
 
 #list(PREPEND CMAKE_MODULE_PATH @STAGE_DIR@/@CMAKE_INSTALL_PREFIX@)
 #list(PREPEND CMAKE_MODULE_PATH @CMAKE_INSTALL_PREFIX@)
@@ -213,6 +214,7 @@ foreach(__depend_i ${__depends_${__cmsb_libname}})
       list(APPEND ${__CMSB_LIBNAME}_LIBRARIES ECPINT::ecpint)
     elseif(${__depend_i} IN_LIST __depends_tlist)
       #HPTT,GauXC,Librett
+      set(_dep_pp ${${__depend_i}_ROOT}) #used only for hptt here for now.
       list(APPEND ${__CMSB_LIBNAME}_LIBRARIES ${__depend_lc}::${__depend_lc})
     endif()
 
