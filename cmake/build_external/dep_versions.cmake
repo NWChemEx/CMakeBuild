@@ -4,7 +4,7 @@ set(CMSB_HDF5_VERSION hdf5_1.14.4.3) #skip upto 1.14.6
 set(CMSB_DOCTEST_VERSION 2.4.11)
 set(CMSB_ELPA_VERSION 2025.01.002)
 
-set(TAMM_GIT_TAG v0.0.1)
+set(TAMM_GIT_TAG v0.1.0)
 if(ENABLE_DEV_MODE OR USE_TAMM_DEV)
     set(TAMM_GIT_TAG main)
 endif()
@@ -51,7 +51,7 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # Global Arrays
-set(GA_GIT_TAG 4ed7c1cc94c082595de3e21d47f0c79ff4cbbf6f) #Dec 19,2025
+set(GA_GIT_TAG a0af63f9235bde86e88ae14e9a78178bba3fb1b0) #April 10,2026
 if(ENABLE_DEV_MODE)
   set(GA_GIT_TAG develop)
 endif()
