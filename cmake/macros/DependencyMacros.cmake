@@ -12,7 +12,7 @@ include(OptionMacros)
 enable_language(C)
 
 set(DEP_ABUILD "GauXC" "Eigen3" "LibInt2" "HPTT" "HDF5" "numactl" "ELPA" "GlobalArrays" "TAMM") # "BLIS" "AntlrCppRuntime"
-set(DEP_ABUILD_MISC "MACIS" "MSGSL" "NJSON" "DOCTEST" "SPDLOG" "EcpInt" "Librett" "NWQSim")
+set(DEP_ABUILD_MISC "MACIS" "MSGSL" "NJSON" "DOCTEST" "SPDLOG" "EcpInt" "Librett" "NWQSim" "pybind11")
 if("${LINALG_VENDOR}" STREQUAL "BLIS" OR "${LINALG_VENDOR}" STREQUAL "OpenBLAS")
     list(APPEND DEP_ABUILD "BLAS" "LAPACK")
 elseif("${LINALG_VENDOR}" STREQUAL "IBMESSL")
@@ -128,6 +128,8 @@ function(cmsb_find_dependency __name)
         set(__dep_target_name Microsoft.GSL::GSL)
       elseif(${__name} STREQUAL "EcpInt")
         set(__dep_target_name ECPINT::ecpint)
+      elseif(${__name} STREQUAL "pybind11")
+        set(__dep_target_name pybind11::embed)        
       endif()
     endif()
 

@@ -80,6 +80,7 @@ set(${__CMSB_LIBNAME}_HAS_HIP    @CMSB_HAS_HIP@)
 set(${__CMSB_LIBNAME}_HAS_CUDA   @CMSB_HAS_CUDA@)
 set(${__CMSB_LIBNAME}_HAS_DPCPP  @CMSB_HAS_DPCPP@)
 set(${__CMSB_LIBNAME}_HAS_ELPA   @CMSB_HAS_ELPA@)
+set(${__CMSB_LIBNAME}_HAS_PYTHON   @CMSB_HAS_PYTHON@)
 set(USE_UPCXX   @USE_UPCXX@)
 
 if(${__CMSB_LIBNAME} STREQUAL TAMM)
@@ -212,6 +213,9 @@ foreach(__depend_i ${__depends_${__cmsb_libname}})
     elseif(${__depend_i} STREQUAL "EcpInt")
       set(__depend_cfg ecpint-config.cmake)
       list(APPEND ${__CMSB_LIBNAME}_LIBRARIES ECPINT::ecpint)
+    elseif(${__depend_i} STREQUAL "pybind11")
+      set(__depend_cfg pybind11Config.cmake)
+      list(APPEND ${__CMSB_LIBNAME}_LIBRARIES pybind11::embed)      
     elseif(${__depend_i} IN_LIST __depends_tlist)
       #HPTT,GauXC,Librett
       set(_dep_pp ${${__depend_i}_ROOT}) #used only for hptt here for now.

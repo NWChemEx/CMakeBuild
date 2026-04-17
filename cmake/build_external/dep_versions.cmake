@@ -89,8 +89,7 @@ if(ENABLE_DEV_MODE)
   set(NWQSIM_GIT_TAG main)
 endif()
 
-# Unused
-set(PYBIND_GIT_TAG master)
+set(PYBIND_GIT_TAG v3.0.3)
 if(ENABLE_DEV_MODE)
   set(PYBIND_GIT_TAG master)
 endif()
