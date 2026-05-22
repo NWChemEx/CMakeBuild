@@ -24,30 +24,31 @@ endif()
 set(LIBINT_EXTRA_FLAGS "-Wno-unused-variable")
 set(CXX_FLAGS_INIT "${CMAKE_CXX_FLAGS_INIT} ${LIBINT_EXTRA_FLAGS}")
 
-if(LIBINT_ERI)
-  set(LIBINT_TAR ${LIBINT_ERI})
-endif()
+set(LIBINT_TAR_URL https://github.com/ExaChem/exachem-support.git)
+set(LI_GIT_TAG main)
 
 if(ENABLE_OFFLINE_BUILD)
   set(LIBINT_TAR ${DEPS_LOCAL_PATH}/libint-${CMSB_LIBINT_VERSION}.tgz)
 endif()
 
 # set (LI_SRC_SDIR libint-${CMSB_LIBINT_VERSION})
-# if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin" OR LIBINT_ERI)
+# if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin")
 #   set(LI_SRC_SDIR ".")
 # endif()
 set(LI_SRC_SDIR ".")
 
 ExternalProject_Add(LibInt2_External
-        URL ${LIBINT_TAR}
-        SOURCE_SUBDIR ${LI_SRC_SDIR}
-        PATCH_COMMAND ${CMAKE_COMMAND} -E echo "Patching include/libint2/lcao/molden.h ..." &&
-                          ${CMAKE_COMMAND} -E copy_if_different ${CMSB_BUILD_SCRIPTS}/molden.h ${LI_SRC_SDIR}/include/libint2/lcao/molden.h
-        CMAKE_ARGS ${DEPENDENCY_CMAKE_OPTIONS} -DCMAKE_CXX_FLAGS_INIT=${CXX_FLAGS_INIT} -DLIBINT_USE_BUNDLED_BOOST=ON
-        INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}
-        CMAKE_CACHE_ARGS ${CORE_CMAKE_LISTS}
-        ${CORE_CMAKE_STRINGS}
-        )
+    GIT_REPOSITORY ${LIBINT_TAR_URL}
+    GIT_TAG ${LI_GIT_TAG}
+    UPDATE_DISCONNECTED 1
+    PATCH_COMMAND ${CMAKE_COMMAND} -E chdir <SOURCE_DIR>
+              ${CMAKE_COMMAND} -E tar xJf <SOURCE_DIR>/libint/libint-${CMSB_LIBINT_VERSION}.tar.xz   
+    SOURCE_SUBDIR ${LI_SRC_SDIR}/libint-${CMSB_LIBINT_VERSION}
+    CMAKE_ARGS ${DEPENDENCY_CMAKE_OPTIONS} -DCMAKE_CXX_FLAGS_INIT=${CXX_FLAGS_INIT} -DLIBINT_USE_BUNDLED_BOOST=ON
+    INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}
+    CMAKE_CACHE_ARGS ${CORE_CMAKE_LISTS}
+    ${CORE_CMAKE_STRINGS}
+    )
 
 add_dependencies(LibInt2_External Eigen3_External)
 
