@@ -33,7 +33,7 @@ endif()
 
 if(ENABLE_OFFLINE_BUILD)
 ExternalProject_Add(ScaLAPACK_External
-                URL ${DEPS_LOCAL_PATH}/scalapack
+                SOURCE_DIR ${DEPS_LOCAL_PATH}/scalapack
                 CMAKE_ARGS
                     ${DEPENDENCY_CMAKE_OPTIONS}
                    -DSCALAPACK_BUILD_TESTS=OFF

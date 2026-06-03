@@ -47,7 +47,7 @@ set(BLIS_MISC_OPTIONS --without-memkind --enable-scalapack-compat)
 
 if(ENABLE_OFFLINE_BUILD)
 ExternalProject_Add(BLIS_External
-        URL ${DEPS_LOCAL_PATH}/blis
+        SOURCE_DIR ${DEPS_LOCAL_PATH}/blis
         CONFIGURE_COMMAND ./configure --prefix=${CMAKE_INSTALL_PREFIX}
                                       CXX=${CMAKE_CXX_COMPILER}
                                       CC=${CMAKE_C_COMPILER}

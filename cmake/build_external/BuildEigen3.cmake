@@ -7,7 +7,7 @@ endif()
 
 if(ENABLE_OFFLINE_BUILD)
 ExternalProject_Add(Eigen3_External
-    URL ${DEPS_LOCAL_PATH}/eigen
+    SOURCE_DIR ${DEPS_LOCAL_PATH}/eigen
     CMAKE_ARGS ${DEPENDENCY_CMAKE_OPTIONS} 
         INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install #DESTDIR=${STAGE_DIR}
     )

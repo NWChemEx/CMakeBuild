@@ -2,7 +2,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/dep_versions.cmake)
 
 if(ENABLE_OFFLINE_BUILD)
 ExternalProject_Add(NJSON_External
-    URL ${DEPS_LOCAL_PATH}/json
+    SOURCE_DIR ${DEPS_LOCAL_PATH}/json
     CMAKE_ARGS ${DEPENDENCY_CMAKE_OPTIONS} -DJSON_BuildTests=OFF
         INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}
     )

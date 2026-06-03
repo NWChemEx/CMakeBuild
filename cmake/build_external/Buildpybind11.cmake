@@ -2,7 +2,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/dep_versions.cmake)
 
 if(ENABLE_OFFLINE_BUILD)
 ExternalProject_Add(pybind11_External
-    URL ${DEPS_LOCAL_PATH}/pybind11
+    SOURCE_DIR ${DEPS_LOCAL_PATH}/pybind11
     CMAKE_ARGS ${DEPENDENCY_CMAKE_OPTIONS}
                -DPYBIND11_TEST=OFF
     INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}

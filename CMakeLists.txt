@@ -9,7 +9,7 @@ endif()
 
 if(ENABLE_OFFLINE_BUILD)
 FetchContent_Declare(linalg-cmake-modules
-  URL ${DEPS_LOCAL_PATH}/linalg-cmake-modules
+  SOURCE_DIR ${DEPS_LOCAL_PATH}/linalg-cmake-modules
 )
 else()
 FetchContent_Declare(linalg-cmake-modules

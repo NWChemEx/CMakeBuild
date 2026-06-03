@@ -19,7 +19,7 @@ endif()
 
 if(ENABLE_OFFLINE_BUILD)
 ExternalProject_Add(LAPACK_External
-        URL ${DEPS_LOCAL_PATH}/lapack
+        SOURCE_DIR ${DEPS_LOCAL_PATH}/lapack
         CMAKE_ARGS ${DEPENDENCY_CMAKE_OPTIONS}
                    -DUSE_OPTIMIZED_BLAS=ON
                    -DBLAS_LIBRARIES=${BLAS_LIBRARIES}
