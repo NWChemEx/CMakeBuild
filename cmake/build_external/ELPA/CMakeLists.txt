@@ -132,10 +132,37 @@ message(STATUS "ELPA configure options:
         ${ELPA_LINALG}"
         )
 
+is_valid_and_true(ELPA_URL __set)
+if (NOT __set)
+  set(_ELPA_URL "https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/${CMSB_ELPA_VERSION}/elpa-${CMSB_ELPA_VERSION}.tar.gz")
+else()
+    set(_ELPA_URL ${ELPA_URL})
+endif()
+
 if(ENABLE_OFFLINE_BUILD)
+
+ExternalProject_Add(ELPA_External
+    URL ${DEPS_LOCAL_PATH}/elpa-${CMSB_ELPA_VERSION}.tar.gz
+    CONFIGURE_COMMAND ACLOCAL=aclocal AUTOMAKE=automake AUTOCONF=autoconf AUTOHEADER=autoheader MAKEINFO=makeinfo
+                                    ./configure --prefix=${CMAKE_INSTALL_PREFIX}
+                                    ${ELPA_INTRINSICS}
+                                    ${ELPA_SHARED_LIBS}
+                                    ${ELPA_GPU}
+                                    CXX=${CMAKE_CXX_COMPILER}
+                                    CC=${CMAKE_C_COMPILER}
+                                    FC=${CMAKE_Fortran_COMPILER}
+                                    CFLAGS=${ELPA_C_FLAGS}
+                                    FCFLAGS=${ELPA_F_FLAGS}
+                                    CPPFLAGS=${elpa_mpi_incs}
+                                    ${ELPA_LINALG}
+
+    INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}
+    BUILD_IN_SOURCE 1
+)
+
 else()
 ExternalProject_Add(ELPA_External
-     URL https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/${CMSB_ELPA_VERSION}/elpa-${CMSB_ELPA_VERSION}.tar.gz
+    URL ${_ELPA_URL}
     CONFIGURE_COMMAND ACLOCAL=aclocal AUTOMAKE=automake AUTOCONF=autoconf AUTOHEADER=autoheader MAKEINFO=makeinfo
                                     ./configure --prefix=${CMAKE_INSTALL_PREFIX}
                                     ${ELPA_INTRINSICS}
