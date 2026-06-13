@@ -166,13 +166,36 @@ function(cmsb_add_library __name __srcs __headers __flags __lflags)
     endforeach()
 endfunction()
 
-function(cmsb_add_pymodule __name __srcs __headers __flags __lflags __init)
+
+# Build a pybind11 Python extension module in its own sub-build
+# that consumes the installed core library.
+function(cmsb_add_pymodule __name __srcs __headers __flags __lflags)
+    set(__init "")
+    if(${ARGC} GREATER 5)
+        set(__init "${ARGV5}")
+    endif()
+
     set(__flags __CMSB_PROJECT_CXX_FLAGS)
-    cmsb_add_library(${__name} ${__srcs} ${__headers} ${__flags}
-            ${__lflags})
-    SET_TARGET_PROPERTIES(${__name} PROPERTIES PREFIX "")
-    install(FILES ${__init}
-            DESTINATION lib/${__name})
+    set(__srcs_copy ${${__srcs}})
+    make_full_paths(__srcs_copy)
+
+    set(PYBIND11_FINDPYTHON ON)
+    find_package(pybind11 CONFIG REQUIRED)
+
+    pybind11_add_module(${__name} MODULE NO_EXTRAS ${__srcs_copy})
+
+    cmsb_set_up_target(${__name} "${__flags}" "${__lflags}" lib)
+
+    # Self-contained import for everything installed under the prefix; system
+    # deps are still resolved from the user's loaded environment at runtime.
+    set_target_properties(${__name} PROPERTIES
+        INSTALL_RPATH "$ORIGIN;${CMAKE_INSTALL_PREFIX}/lib;${CMAKE_INSTALL_PREFIX}/lib64"
+        INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+    install(TARGETS ${__name} LIBRARY DESTINATION lib)
+    if(__init)
+        install(FILES ${__init} DESTINATION lib)
+    endif()
 endfunction()
 
 function(cmsb_add_test __name __test_file __flags)
@@ -237,10 +260,44 @@ function(add_python_unit_test __name)
         endforeach()
     endforeach()
     set(env_vars)
-    add_test(NAME Py${__name} COMMAND python3 ${__name}.py)
+    add_test(NAME Py${__name} COMMAND python3 ${CMAKE_CURRENT_LIST_DIR}/${__name}.py)
     set_tests_properties(Py${__name} PROPERTIES ENVIRONMENT
        "LD_LIBRARY_PATH=${LD_LIBRARY_PATH};PYTHONPATH=${STAGE_INSTALL_DIR}/lib")
-    install(FILES ${__name}.py DESTINATION tests)
+    install(FILES ${CMAKE_CURRENT_LIST_DIR}/${__name}.py DESTINATION tests)
+endfunction()
+
+# Parallel counterpart of add_python_unit_test, mirroring add_mpi_unit_test:
+# same Python env setup (LD_LIBRARY_PATH from the dep closure + PYTHONPATH to the
+# installed python module), but the test is launched under MPI on __np ranks.
+function(add_mpi_python_unit_test __name __np)
+    set(__testargs "${ARGN}")
+    separate_arguments(__testargs)
+    foreach(__depend ${CMSB_DEPENDENCIES})
+        cmsb_find_dependency(${__depend})
+        get_property(_tmp_libs TARGET ${__depend}_External
+                PROPERTY INTERFACE_LINK_LIBRARIES)
+        foreach(__lib ${_tmp_libs})
+            get_filename_component(_lib_path ${__lib} DIRECTORY)
+            set(LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:${_lib_path}")
+        endforeach()
+    endforeach()
+
+    set(__cmsb_job_cmd ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${__np})
+    if(JOB_LAUNCH_CMD)
+      set(__cmsb_job_cmd ${JOB_LAUNCH_CMD})
+      if(JOB_LAUNCH_ARGS)
+        separate_arguments(JOB_LAUNCH_ARGS)
+        set(__cmsb_job_cmd ${__cmsb_job_cmd} ${JOB_LAUNCH_ARGS})
+      else()
+        set(__cmsb_job_cmd ${__cmsb_job_cmd} ${MPIEXEC_NUMPROC_FLAG} ${__np})
+      endif()
+    endif()
+
+    add_test(NAME Py${__name} COMMAND ${__cmsb_job_cmd} python3 ${CMAKE_CURRENT_LIST_DIR}/${__name}.py ${__testargs})
+    set_tests_properties(Py${__name} PROPERTIES ENVIRONMENT
+       "LD_LIBRARY_PATH=${LD_LIBRARY_PATH};PYTHONPATH=${STAGE_INSTALL_DIR}/lib"
+       LABELS "MPIPyUnitTest")
+    install(FILES ${CMAKE_CURRENT_LIST_DIR}/${__name}.py DESTINATION tests)
 endfunction()
 
 function(add_cmake_macro_test __name)

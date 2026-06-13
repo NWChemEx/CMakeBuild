@@ -192,6 +192,9 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
         #Directory where your tests are
         option_w_default(${__project}_TEST_DIR
                 ${SUPER_PROJECT_ROOT}/${__project}_Test)
+        #Directory where the optional Python bindings live
+        option_w_default(${__project}_PYTHON_DIR
+                ${SUPER_PROJECT_ROOT}/${__project}/python)
         #Name of variable containing your project's dependencies
         option_w_default(${__project}_DEPENDENCIES "")
     endforeach()
@@ -486,7 +489,28 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
             install(DIRECTORY ${METHODS_STAGE_DIR}${CMAKE_INSTALL_PREFIX}/methods/
                     DESTINATION ${CMAKE_INSTALL_PREFIX}/bin USE_SOURCE_PERMISSIONS
                     PATTERN "*.cmake" EXCLUDE)
-        endif()        
+        endif()
+
+        # Optional pybind11 based Python bindings, built as a separate sub-project that
+        # consumes the installed core library exactly like the Tests sub-build does.
+        if(${__project}_HAS_PYTHON AND EXISTS "${${__project}_PYTHON_DIR}/CMakeLists.txt")
+            list(APPEND PYTHON_DEPENDS "CMakeBuild" "${__project}" "${${__project}_DEPENDENCIES}")
+            ExternalProject_Add(${__project}_Python_External
+                    SOURCE_DIR ${${__project}_PYTHON_DIR}
+                    CMAKE_ARGS -DSUPER_PROJECT_ROOT=${SUPER_PROJECT_ROOT}
+                                -DCMSB_DEBUG_CMAKE=${CMSB_DEBUG_CMAKE}
+                                -DSTAGE_DIR=${STAGE_DIR}
+                                -DSTAGE_INSTALL_DIR=${STAGE_INSTALL_DIR}
+                                ${CORE_CMAKE_OPTIONS}
+
+                    BUILD_ALWAYS 1
+                    INSTALL_COMMAND ${CMAKE_MAKE_PROGRAM} install DESTDIR=${STAGE_DIR}
+                    CMAKE_CACHE_ARGS ${CORE_CMAKE_LISTS}
+                                        ${CORE_CMAKE_STRINGS}
+                                        -DCMSB_DEPENDENCIES:LIST=${PYTHON_DEPENDS}
+                    )
+            add_dependencies(${__project}_Python_External ${__project}_External)
+        endif()               
     endforeach()
 
     # Install the staging directory
