@@ -13,7 +13,7 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
     include(CheckCXXCompilerFlag)
     include(CheckFortranCompilerFlag)
 
-    option_w_default(CMAKE_CXX_STANDARD 17)
+    option_w_default(CMAKE_CXX_STANDARD 20)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     option_w_default(BLAS_INT4 ON)
     option_w_default(LINALG_VENDOR BLIS)
