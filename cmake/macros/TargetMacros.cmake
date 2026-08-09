@@ -256,13 +256,13 @@ function(add_python_unit_test __name)
                 PROPERTY INTERFACE_LINK_LIBRARIES)
         foreach(__lib ${_tmp_libs})
             get_filename_component(_lib_path ${__lib} DIRECTORY)
-            set(LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:${_lib_path}")
+            set(LD_LIBRARY_PATH "$ENV{LD_LIBRARY_PATH}:${_lib_path}")
         endforeach()
     endforeach()
     set(env_vars)
     add_test(NAME Py${__name} COMMAND python3 ${CMAKE_CURRENT_LIST_DIR}/${__name}.py)
     set_tests_properties(Py${__name} PROPERTIES ENVIRONMENT
-       "LD_LIBRARY_PATH=${LD_LIBRARY_PATH};PYTHONPATH=${STAGE_INSTALL_DIR}/lib")
+       "LD_LIBRARY_PATH=$ENV{LD_LIBRARY_PATH};PYTHONPATH=${STAGE_INSTALL_DIR}/lib")
     install(FILES ${CMAKE_CURRENT_LIST_DIR}/${__name}.py DESTINATION tests)
 endfunction()
 
@@ -278,7 +278,7 @@ function(add_mpi_python_unit_test __name __np)
                 PROPERTY INTERFACE_LINK_LIBRARIES)
         foreach(__lib ${_tmp_libs})
             get_filename_component(_lib_path ${__lib} DIRECTORY)
-            set(LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:${_lib_path}")
+            set(LD_LIBRARY_PATH "$ENV{LD_LIBRARY_PATH}:${_lib_path}")
         endforeach()
     endforeach()
 
@@ -295,7 +295,7 @@ function(add_mpi_python_unit_test __name __np)
 
     add_test(NAME Py${__name} COMMAND ${__cmsb_job_cmd} python3 ${CMAKE_CURRENT_LIST_DIR}/${__name}.py ${__testargs})
     set_tests_properties(Py${__name} PROPERTIES ENVIRONMENT
-       "LD_LIBRARY_PATH=${LD_LIBRARY_PATH};PYTHONPATH=${STAGE_INSTALL_DIR}/lib"
+       "LD_LIBRARY_PATH=$ENV{LD_LIBRARY_PATH};PYTHONPATH=${STAGE_INSTALL_DIR}/lib"
        LABELS "MPIPyUnitTest")
     install(FILES ${CMAKE_CURRENT_LIST_DIR}/${__name}.py DESTINATION tests)
 endfunction()
