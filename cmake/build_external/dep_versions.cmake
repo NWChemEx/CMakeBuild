@@ -72,7 +72,7 @@ endif()
 set(CMSB_LIBINT_VERSION 2.11.2) #2.9.0 is min
 
 # LibEcpInt
-set(ECPINT_GIT_TAG ee6d75a969bb92535a9ecf2ba4b564a75b7ef84b)
+set(ECPINT_GIT_TAG 95203c68d1bb4134a235480d8c69c3014faaccf9)
 if(ENABLE_DEV_MODE)
   set(ECPINT_GIT_TAG master)
 endif()
