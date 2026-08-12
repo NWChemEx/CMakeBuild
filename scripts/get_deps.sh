@@ -23,7 +23,7 @@ wget https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.30/OpenBLAS-
 
 wget https://github.com/doctest/doctest/archive/refs/tags/v2.4.11.tar.gz
 
-wget https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/2025.01.002/elpa-2025.01.002.tar.gz
+wget https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/2026.02.002/elpa-2026.02.002.tar.gz
 
 git clone https://gitlab.com/libeigen/eigen.git
 cd eigen
