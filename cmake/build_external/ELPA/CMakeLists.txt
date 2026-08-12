@@ -147,7 +147,8 @@ if(ENABLE_OFFLINE_BUILD)
 
 ExternalProject_Add(ELPA_External
     URL ${DEPS_LOCAL_PATH}/elpa-${CMSB_ELPA_VERSION}.tar.gz
-    CONFIGURE_COMMAND ACLOCAL=aclocal AUTOMAKE=automake AUTOCONF=autoconf AUTOHEADER=autoheader MAKEINFO=makeinfo
+    PATCH_COMMAND find . -exec touch -c {} +
+    CONFIGURE_COMMAND ACLOCAL=true AUTOMAKE=true AUTOCONF=true AUTOHEADER=true MAKEINFO=true
                                     ./configure --prefix=${CMAKE_INSTALL_PREFIX}
                                     ${ELPA_INTRINSICS}
                                     ${ELPA_SHARED_LIBS}
@@ -167,7 +168,8 @@ ExternalProject_Add(ELPA_External
 else()
 ExternalProject_Add(ELPA_External
     URL ${_ELPA_URL}
-    CONFIGURE_COMMAND ACLOCAL=aclocal AUTOMAKE=automake AUTOCONF=autoconf AUTOHEADER=autoheader MAKEINFO=makeinfo
+    PATCH_COMMAND find . -exec touch -c {} +
+    CONFIGURE_COMMAND ACLOCAL=true AUTOMAKE=true AUTOCONF=true AUTOHEADER=true MAKEINFO=true
                                     ./configure --prefix=${CMAKE_INSTALL_PREFIX}
                                     ${ELPA_INTRINSICS}
                                     ${ELPA_SHARED_LIBS}
