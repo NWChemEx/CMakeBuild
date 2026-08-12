@@ -23,10 +23,12 @@ set(SPDLOG_GIT_TAG v1.15.2)
 
 # BLIS
 set(BLIS_GIT_TAG 5d9e110a2aa58b6e5d131db9131bae0143f22f9f) #April 7, 2025
-
+if(ENABLE_DEV_MODE)
+  set(BLIS_GIT_TAG master)
+endif()
 
 # OpenBLAS
-set(OpenBLAS_GIT_TAG 0.3.33)
+set(OpenBLAS_GIT_TAG 0.3.34)
 
 # LAPACK
 set(LAPACK_GIT_TAG 67f9279da4d004b3e998d6fb63ef75c4fbbf7355) #Dec 2, 2025
