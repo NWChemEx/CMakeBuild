@@ -13,7 +13,7 @@ endif()
 set(NUMACTL_GIT_TAG v2.0.19)
 
 # Eigen3
-set(EIGEN_GIT_TAG 2265a5e025601d501903c772799ce29fb73c8efa) #April 23, 2025
+set(EIGEN_GIT_TAG bc3b39870ecb690a623a3f49149a358b95c5781d) #Nov 8, 2025
 if(ENABLE_DEV_MODE)
   set(EIGEN_GIT_TAG master)
 endif()
@@ -71,7 +71,8 @@ if(ENABLE_DEV_MODE)
 endif()
 
 # Libint
-set(CMSB_LIBINT_VERSION 2.11.2) #2.9.0 is min
+set(CMSB_LIBINT_VERSION 2.13.1) #2.13.1 is min
+set(EXACHEM_SUPPORT_RELEASE_VERSION 1.0.0) #exachem-support repo
 
 # LibEcpInt
 set(ECPINT_GIT_TAG 95203c68d1bb4134a235480d8c69c3014faaccf9) #June 20, 2026

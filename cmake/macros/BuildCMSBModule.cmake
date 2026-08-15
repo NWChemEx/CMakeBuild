@@ -283,6 +283,9 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
     if(LIBRETT_TAG)
         bundle_cmake_strings(CORE_CMAKE_STRINGS LIBRETT_TAG)
     endif()
+    if(LIBINT_TAR_URL)
+        bundle_cmake_strings(CORE_CMAKE_STRINGS LIBINT_TAR_URL)
+    endif()
     if(MODULES)
         list(TRANSFORM MODULES TOUPPER)
         option_w_default(GAUXC_GPU OFF)
@@ -518,19 +521,9 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
             DESTINATION ${CMAKE_INSTALL_PREFIX} USE_SOURCE_PERMISSIONS)
 
     if(DEFINED CMSB_BASISSET_DIR)
-        if(TARGET Libint2::cxx)
-            if(TARGET Libint2::libint2_cxx_prerequisites) #2.10 and above
-                get_target_property(LI_CD Libint2::libint2_cxx_prerequisites INTERFACE_COMPILE_DEFINITIONS)
-            else() #2.9.0
-                get_target_property(LI_CD Libint2::cxx INTERFACE_COMPILE_DEFINITIONS)
-            endif()
-            string(REPLACE "=" " " LI_CD ${LI_CD})
-            separate_arguments(LI_CD UNIX_COMMAND ${LI_CD})
-            list (GET LI_CD 1 LI_BASIS_SET_PATH)
-            file(GLOB _CMSB_BASISSET_FILES "${CMSB_BASISSET_DIR}/*")
-            install(FILES ${_CMSB_BASISSET_FILES}
-                    DESTINATION ${LI_BASIS_SET_PATH}/basis)
-        endif()
+        file(GLOB _CMSB_BASISSET_FILES "${CMSB_BASISSET_DIR}/*")
+        install(FILES ${_CMSB_BASISSET_FILES}
+                DESTINATION ${CMAKE_INSTALL_PREFIX}/basis)
     endif()
 
     ############################################################################

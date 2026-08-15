@@ -233,9 +233,6 @@ function(cmsb_find_dependency __name)
 
                 if(${__NAME} STREQUAL "LIBINT2")
                     set(${name_var}_LIBRARIES Libint2::cxx)
-                    get_property(_li_cd TARGET Libint2::cxx
-                        PROPERTY INTERFACE_COMPILE_DEFINITIONS)
-                    set(${name_var}_COMPILE_DEFINITIONS "${_li_cd}")
 
                 elseif(${__NAME} STREQUAL "HDF5")
                     set(${name_var}_LIBRARIES hdf5-static)

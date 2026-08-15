@@ -75,6 +75,12 @@ function(cmsb_set_up_target __name __flags __lflags __install)
     if(__has_defs)
         target_compile_definitions(${__name} PRIVATE "${_tcd}")
     endif()
+    # libint's basis.h resolves the basisset dir from LIBINT_DATADIR and appends "/basis"
+    # Applies to every module, not just those listing LibInt2 in CMSB_DEPENDENCIES.
+    # MODULES is the same gate TAMM uses to pull in LibInt2 as a dependency.
+    if(MODULES)
+      target_compile_definitions(${__name} PRIVATE "LIBINT_DATADIR=\"${CMAKE_INSTALL_PREFIX}\"")
+    endif()
     target_include_directories(${__name} PRIVATE ${CMSB_INCLUDE_DIR})
     target_include_directories(${__name} PRIVATE ${_tid})
     set_property(TARGET ${__name} PROPERTY CXX_STANDARD ${CMAKE_CXX_STANDARD})

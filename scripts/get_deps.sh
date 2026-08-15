@@ -27,7 +27,7 @@ wget https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/2026.02.002/elp
 
 git clone https://gitlab.com/libeigen/eigen.git
 cd eigen
-git checkout 2265a5e025601d501903c772799ce29fb73c8efa
+git checkout bc3b39870ecb690a623a3f49149a358b95c5781d
 
 cd $cdir
 
@@ -43,7 +43,7 @@ cd hptt
 git checkout eff1bdd79734ddc4993dd4df1d0cdbd40758b9cb
 
 cd $cdir
-wget https://github.com/evaleev/libint/releases/download/v2.11.2/libint-2.11.2.tgz
+wget https://github.com/ExaChem/exachem-support/raw/refs/heads/main/libint/libint-2.13.1.tar.xz
 
 git clone https://github.com/victor-anisimov/Librett.git
 cd Librett
