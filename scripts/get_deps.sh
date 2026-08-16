@@ -27,7 +27,7 @@ wget https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/2026.02.002/elp
 
 git clone https://gitlab.com/libeigen/eigen.git
 cd eigen
-git checkout bc3b39870ecb690a623a3f49149a358b95c5781d
+git checkout 2265a5e025601d501903c772799ce29fb73c8efa
 
 cd $cdir
 
