@@ -114,9 +114,13 @@ set(ELPA_F_FLAGS "${ELPA_F_FLAGS} ${elpa_mpi_incs}")
 set(ELPA_LINALG "LIBS=${elpa_scalapack_libs} ${elpa_lapack_libs} ${elpa_blas_libs} ${elpa_mpi_libs}")
 set(ELPA_INTRINSICS --disable-sve512 --disable-avx512 --disable-openmp --disable-detect-mpi-launcher)
 
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64" OR CMAKE_SYSTEM_PROCESSOR MATCHES "arm64")
+  list(APPEND ELPA_INTRINSICS --disable-sse --disable-sse-assembly --disable-avx --disable-avx2)
+endif()
+
 if(${CMSB_PROJECTS}_HAS_CUDA)
   find_package(CUDAToolkit REQUIRED)
-  get_filename_component(__cuda_install_prefix "${CUDAToolkit_INCLUDE_DIRS}/.." ABSOLUTE)
+  set(__cuda_install_prefix "${CUDAToolkit_LIBRARY_ROOT}")
   #TODO: fix -lstdc++
   set(ELPA_LINALG "LIBS=${elpa_scalapack_libs} ${elpa_lapack_libs} ${elpa_blas_libs} ${elpa_mpi_libs} ${ELPA_CRAY_DYN} -lstdc++")
   set(ELPA_GPU --disable-c-tests --disable-cpp-tests --enable-nvidia-gpu-kernels --with-NVIDIA-GPU-compute-capability=sm_${GPU_ARCH}  --with-cuda-path=${__cuda_install_prefix})

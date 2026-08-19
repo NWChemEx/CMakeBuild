@@ -42,6 +42,14 @@ include(OptionMacros)
 set(DIR_OF_TARGET_MACROS ${CMAKE_CURRENT_LIST_DIR})
 
 function(cmsb_set_up_target __name __flags __lflags __install)
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+      # Unlike static archives, shared libraries do not require left-to-right
+      # link ordering: a shared library can satisfy symbols introduced later
+      # in the link. However, Debian/Ubuntu's GCC defaults to --as-needed,
+      # which can discard it before a later consumer needs it. Disable it
+      # so that the link ordering remains robust for shared libraries.
+      target_link_options(${__name} PRIVATE -Wl,--no-as-needed)
+    endif()
     set(__headers_copy ${${__includes}})
     make_full_paths(__headers_copy)
     foreach(__depend ${CMSB_DEPENDENCIES})
