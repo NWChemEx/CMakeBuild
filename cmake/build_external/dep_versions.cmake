@@ -13,7 +13,7 @@ endif()
 set(NUMACTL_GIT_TAG v2.0.19)
 
 # Eigen3
-set(EIGEN_GIT_TAG 2265a5e025601d501903c772799ce29fb73c8efa) #April 23, 2025
+set(EIGEN_GIT_TAG e50fac9ff304cbcaa8c1fdc92484ac33835ac675) #Sept 10, 2026
 if(ENABLE_DEV_MODE)
   set(EIGEN_GIT_TAG master)
 endif()
