@@ -386,8 +386,15 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
             list(APPEND TAMM_CXX_FLAGS -DUSE_HIP)
         endif()
 
+        # DPCPP-only: CUDA/HIP device arch travels via CMAKE_{CUDA,HIP}_ARCHITECTURES, not here.
+        set(CMSB_CXX_AOT_FLAGS)
         if(${__project}_HAS_DPCPP)
-            list(APPEND TAMM_CXX_FLAGS -DUSE_DPCPP) #-fsycl
+            list(APPEND TAMM_CXX_FLAGS -DUSE_DPCPP)
+            # Kept out of TAMM_CXX_FLAGS: that goes to every dep sub-build, and -fsycl-targets
+            # errors without -fsycl (supplied by MKL::MKL_SYCL::BLAS). Non-Intel GPU_ARCH JITs.
+            if(GPU_ARCH MATCHES "^intel_gpu_")
+                set(CMSB_CXX_AOT_FLAGS "-fsycl-targets=${GPU_ARCH}")
+            endif()
         endif()      
 
         if(USE_UPCXX)
@@ -422,6 +429,13 @@ function(build_cmsb_module SUPER_PROJECT_ROOT)
                 bundle_cmake_args(DEPENDENCY_ROOT_DIRS ${depend}_ROOT)
             endif()
         endforeach()
+
+        # Must stay below the loop above: Build<dep>.cmake expands CORE_CMAKE_STRINGS at
+        # include time, and AoT flags are for ${__project} only. Last entry wins in the cache.
+        if(CMSB_CXX_AOT_FLAGS)
+            list(APPEND CORE_CMAKE_STRINGS
+                 "-D${CMSB_CXX_FLAGS}:STRING=${${CMSB_CXX_FLAGS}} ${CMSB_CXX_AOT_FLAGS}")
+        endif()
 
         ExternalProject_Add(${__project}_External
                 SOURCE_DIR ${${__project}_SRC_DIR}
