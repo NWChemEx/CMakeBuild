@@ -87,7 +87,7 @@ if(ENABLE_DEV_MODE)
 endif()
 
 #NWQ-Sim
-set(NWQSIM_GIT_TAG b35763d846e6512ed817d3f88ac8ce79a7e82a7e) #April 17, 2026
+set(NWQSIM_GIT_TAG 202f5cab03477c78ab9f0b4dbbbf8f135778ac8f) #Sept 24, 2026
 if(ENABLE_DEV_MODE)
   set(NWQSIM_GIT_TAG main)
 endif()
